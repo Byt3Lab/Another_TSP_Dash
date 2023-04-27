@@ -11,11 +11,12 @@ import {
   fetch_admin,
   del_admin,
   update_admin,
+  get_dashboard_data,
 } from "../controllers/admin.controller.js";
 import { tokenCheck } from "../middlewares/tokenCheck.service.js";
 
 // Fetch ALL Admins
-adminRouter.get("/0", tokenCheck, all_admins, (req, res) => {});
+adminRouter.get("/all", tokenCheck, all_admins, (req, res) => {});
 
 // Admin Add
 adminRouter.post("/add", tokenCheck, add_admin, (req, res) => {});
@@ -28,5 +29,12 @@ adminRouter.delete("/:id", tokenCheck, del_admin, (req, res) => {});
 
 // Update Admin
 adminRouter.put("/update/:id", tokenCheck, update_admin, (req, res) => {});
+
+adminRouter.get(
+  "/data/dashboard/",
+  tokenCheck,
+  get_dashboard_data,
+  (req, res) => {}
+);
 
 export { adminRouter };

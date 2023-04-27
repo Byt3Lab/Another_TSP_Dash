@@ -1,14 +1,24 @@
 {
-  "name": "menzen_client",
-  "version": "1.0",
-  "author": "M1L040",
+  "name": "tsp_administration",
+  "version": "v1.0-beta",
+  "description": "The administrative web app for the TSP mobile application.",
+  "author": "Byt3Lab",
+  "contributors": [
+    "M1L040 <milo4lontsi@gmail.com>",
+    "TMC <noumechaivan@gmail.com>"
+  ],
   "url": "",
   "private": true,
   "dependencies": {
     "@babel/core": "^7.21.4",
     "@babel/plugin-syntax-flow": "^7.21.4",
     "@babel/plugin-transform-react-jsx": "^7.21.0",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@fontsource/roboto": "^4.5.8",
     "@inovua/reactdatagrid-community": "^4.20.1",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.12.2",
     "@testing-library/dom": "^9.2.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
@@ -27,6 +37,7 @@
     "react-helmet": "^6.1.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+    "recharts": "^2.5.0",
     "uuid": "^8.3.2",
     "web-vitals": "^2.1.4"
   },

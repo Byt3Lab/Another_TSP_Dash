@@ -17,7 +17,7 @@ import { CompanyIcon } from "../../../components/Svgs/CompanyIcon";
 import { BriefCaseIcon } from "../../../components/Svgs/BriefCaseIcon";
 import { PictureIcon } from "../../../components/Svgs/PictureIcon";
 import { BackArrowHeader } from "../../../components/BackArrowHeader/BackArrowHeader";
-import { Footer } from "../../../components/Footer/Footer";
+import { Footer } from "../../../components/Footer";
 
 const Register = () => {
   const navigate = useNavigate();

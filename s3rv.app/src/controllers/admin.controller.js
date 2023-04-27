@@ -473,4 +473,19 @@ const update_admin = (req, res) => {
   }, 1000);
 };
 
-export { all_admins, add_admin, fetch_admin, del_admin, update_admin };
+const get_dashboard_data = (req, res) => {
+  if (req.cookies.uid) {
+    res.json({ worked: true });
+  } else {
+    res.status(302).json({ worked: false });
+  }
+};
+
+export {
+  all_admins,
+  add_admin,
+  fetch_admin,
+  del_admin,
+  update_admin,
+  get_dashboard_data,
+};

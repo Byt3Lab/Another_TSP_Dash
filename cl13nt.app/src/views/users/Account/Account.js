@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet";
-import { Footer } from "../../../components/Footer/Footer";
+import { Footer } from "../../../components/Footer";
 import { AccountSettingsGrid } from "../../../components/AccountSettingsGrid/AccountSettingsGrid";
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
-import { Overlay } from "../../../components/LoadingOverlay/LoadingOverlay";
+import { Overlay } from "../../../components/LoadingOverlay";
 
 const Account = () => {
   return (

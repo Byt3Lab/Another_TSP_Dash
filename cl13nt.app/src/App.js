@@ -1,11 +1,13 @@
-import React, { useState } from "react";
 import { Routing } from "./Routes/Routes";
+import SettingsProvider from "./contexts/SettingsProvider";
 
 function App() {
   return (
-    <div>
-      <Routing />
-    </div>
+    <SettingsProvider>
+      <div>
+        <Routing />
+      </div>
+    </SettingsProvider>
   );
 }
 

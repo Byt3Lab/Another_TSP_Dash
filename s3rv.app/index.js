@@ -13,7 +13,6 @@ import {
   disconnect,
 } from "./src/configs/db_connect.js";
 import { adminRouter } from "./src/routes/admin.route.js";
-import { employRouter } from "./src/routes/employ.route.js";
 import { authLoginRouter } from "./src/routes/authLogin.route.js";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
@@ -23,10 +22,12 @@ const server = http.createServer(app);
 const port = process.env.PORT || 7000;
 
 app.use(cookieParser());
-app.use(cors({
-  origin: true,
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 app.use(helmet());
 app.use(express.json({ type: ["application/json", "text/plain"] }));
 
@@ -34,9 +35,7 @@ chalker.neon("\n[+] Starting M3NZ3N API Server...", 3);
 
 setTimeout(async () => {
   await connect();
-  app.use(express.static("assets/pages"));
   app.use("/admin", adminRouter);
-  app.use("/employ", employRouter);
   app.use("/", authLoginRouter);
   app.get("/", (req, res) => {
     res.send(

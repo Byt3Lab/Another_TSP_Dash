@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import Home from "../views/users/Home/Home";
@@ -7,35 +7,37 @@ import Profile from "../views/users/Profile/Profile";
 import Login from "../views/auth/Login/Login";
 import Register from "../views/auth/Register/Register";
 import NotFound from "../views/users/404/404";
-import AddAttendance from "../views/users/Attendance/AddAttendance";
-import Tasks from "../views/users/Tasks/Tasks";
-import Messages from "../views/users/Messages/Messages";
-import SharedFiles from "../views/users/SharedFiles/SharedFiles";
-import Listings from "../views/users/Listings/Listings";
-import PublicBoard from "../views/users/PublicBoard/PublicBoard";
-import { FullScreenMenu } from "../components/FullScreenMenu/FullScreenMenu";
-import { NavBarDark, NavBarLight } from "../components/NavBar/NavBar";
+import { NavBar } from "../components/NavBar";
+import { SideMenu } from "../components/SideMenu";
 import { RouteGuardian } from "./RouteGuardian";
-import { Overlay } from "../components/LoadingOverlay/LoadingOverlay";
+import { Overlay } from "../components/LoadingOverlay";
 
-const WithNav = (props) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const toogleFullMenu = () => {
-    setIsOpen(!isOpen);
+const WithMenu = (props) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const toogleExpanded = () => {
+    setIsExpanded(!isExpanded);
   };
   return (
     <>
+      {props.isLoaded ? null : <Overlay />}
       <>
-        {props.isLoaded ? null : <Overlay />}
-        <FullScreenMenu isOpen={isOpen} toogleFullMenu={toogleFullMenu} />
-        <div className="w-full py-3 px-6 bg-gray-700 flex justify-center fixed z-40">
-          <NavBarLight
-            isOpen={isOpen}
-            toogleFullMenu={toogleFullMenu}
-            setIsOpen={setIsOpen}
+        <>
+          <div className="w-full p-2 flex items-center justify-center fixed bg-slate-600 z-40">
+            <NavBar
+              isExpanded={isExpanded}
+              toogleExpanded={toogleExpanded}
+              setIsExpanded={setIsExpanded}
+            />
+          </div>
+          <div className="h-36 w-full p-2"></div>
+        </>
+        <div className="">
+          <SideMenu
+            isExpanded={isExpanded}
+            toogleExpanded={toogleExpanded}
+            setIsExpanded={setIsExpanded}
           />
         </div>
-        <div className="w-full h-40 bg-slate-200" />
       </>
       <Outlet />
     </>
@@ -48,7 +50,7 @@ const Routing = () => {
     <Router>
       <Routes>
         <Route
-          element={<WithNav isLoaded={isLoaded} setIsLoaded={setIsLoaded} />}
+          element={<WithMenu isLoaded={isLoaded} setIsLoaded={setIsLoaded} />}
         >
           <Route
             exact
@@ -98,69 +100,6 @@ const Routing = () => {
               <RouteGuardian
                 componente={
                   <Profile isLoaded={isLoaded} setIsLoaded={setIsLoaded} />
-                }
-              />
-            }
-          />
-          <Route
-            path="/attend"
-            element={
-              <RouteGuardian
-                componente={
-                  <AddAttendance
-                    isLoaded={isLoaded}
-                    setIsLoaded={setIsLoaded}
-                  />
-                }
-              />
-            }
-          />
-          <Route
-            path="/tasks"
-            element={
-              <RouteGuardian
-                componente={
-                  <Tasks isLoaded={isLoaded} setIsLoaded={setIsLoaded} />
-                }
-              />
-            }
-          />
-          <Route
-            path="/messages"
-            element={
-              <RouteGuardian
-                componente={
-                  <Messages isLoaded={isLoaded} setIsLoaded={setIsLoaded} />
-                }
-              />
-            }
-          />
-          <Route
-            path="/board"
-            element={
-              <RouteGuardian
-                componente={
-                  <PublicBoard isLoaded={isLoaded} setIsLoaded={setIsLoaded} />
-                }
-              />
-            }
-          />
-          <Route
-            path="/shared"
-            element={
-              <RouteGuardian
-                componente={
-                  <SharedFiles isLoaded={isLoaded} setIsLoaded={setIsLoaded} />
-                }
-              />
-            }
-          />
-          <Route
-            path="/listings"
-            element={
-              <RouteGuardian
-                componente={
-                  <Listings isLoaded={isLoaded} setIsLoaded={setIsLoaded} />
                 }
               />
             }

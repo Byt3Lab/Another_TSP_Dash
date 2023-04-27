@@ -6,7 +6,7 @@ const API_KEY = process.env.API_SECRET;
 
 const tokenGen = (user, role) => {
   const payload = {
-    id: user.adminID ? user.adminID : user.employID,
+    id: user.adminID,
     entity: role,
     mail: user.mail,
   };
