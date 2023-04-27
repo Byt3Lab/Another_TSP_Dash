@@ -2,7 +2,9 @@ import dotenv from "dotenv";
 dotenv.config();
 import mongoose from "mongoose";
 //const { MongoClient } = require("mongodb");
-const url = process.env.LOCALHOST_MONGO_STR;
+// const url = process.env.LOCALHOST_MONGO_STR;
+const url = process.env.ATLAS_URI;
+mongoose.set("strictQuery", false);
 //const clt = new MongoClient(url);
 import chalk from "chalk";
 
