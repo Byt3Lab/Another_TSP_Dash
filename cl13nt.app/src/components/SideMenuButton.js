@@ -5,7 +5,7 @@ const SideMenuButton = (props) => {
       onClick={props.toogleExpanded}
     >
       {props.isExpanded ? <CMenu /> : <OMenu />}
-      <span className="mx-1">Menu</span>
+      <span className="mx-1">{props.sideMenuItemName}</span>
     </span>
   );
 };
