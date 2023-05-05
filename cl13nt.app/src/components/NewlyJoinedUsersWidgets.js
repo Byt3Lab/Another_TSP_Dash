@@ -12,67 +12,68 @@ import { Link } from "react-router-dom";
 import React from "react";
 import { useTheme } from "@emotion/react";
 
-const joindedArr = [
-  {
-    id: "1",
-    person: "Whatever Whatever",
-    date: "17/03/2023",
-    image: "",
-  },
-  {
-    id: "2",
-    person: "Noumecha",
-    date: "10/03/2023",
-    image: "",
-  },
-  {
-    id: "3",
-    person: "Milo",
-    date: "08/03/2023",
-    image: "",
-  },
-  {
-    id: "4",
-    person: "Tester Testing",
-    date: "08/03/2023",
-    image: "",
-  },
-  {
-    id: "5",
-    person: "Tester Testing",
-    date: "08/03/2023",
-    image: "",
-  },
-  {
-    id: "6",
-    person: "Tester Testing",
-    date: "08/03/2023",
-    image: "",
-  },
-];
 
-const NewlyJoinedUsersWidgets = () => {
+const NewlyJoinedUsersWidgets = (props) => {
+
   const theme = useTheme();
+  /*const joindedArr = [
+    {
+      id: "1",
+      person: "Whatever Whatever",
+      date: "17/03/2023",
+      image: "",
+    },
+    {
+      id: "2",
+      person: "Noumecha",
+      date: "10/03/2023",
+      image: "",
+    },
+    {
+      id: "3",
+      person: "Milo",
+      date: "08/03/2023",
+      image: "",
+    },
+    {
+      id: "4",
+      person: "Tester Testing",
+      date: "08/03/2023",
+      image: "",
+    },
+    {
+      id: "5",
+      person: "Tester Testing",
+      date: "08/03/2023",
+      image: "",
+    },
+    {
+      id: "6",
+      person: "Tester Testing",
+      date: "08/03/2023",
+      image: "",
+    },
+  ];*/
 
   return (
     <React.Fragment>
       <Typography component="h2" marginBottom={3} variant="h4">
         {"Quelques Nouveaux Utilisateurs"}
       </Typography>
-      {joindedArr.map((meeting) => (
+      {props.users.reverse().slice(0, 5).map((meeting) => (
         <Card key={meeting.id} sx={{ mb: 2 }}>
           <CardContent sx={{ display: "flex", alignItems: "center" }}>
             <Avatar
-              alt={`${meeting.person} avatar`}
-              src={meeting.image}
+              alt={`${meeting.name} avatar`}
+              src={meeting.profilePic}
               sx={{ mr: 2 }}
             />
             <Box sx={{ flexGrow: 1 }}>
               <Typography component="div" variant="h6">
-                {meeting.person}
+                {meeting.name}
               </Typography>
               <Typography variant="body2" color="textSecondary" component="div">
-                {meeting.date}
+                {meeting.created_at = new Date(meeting.created_at.seconds * 1000 + meeting.created_at.nanoseconds / 1000000).toLocaleString()}
               </Typography>
             </Box>
           </CardContent>

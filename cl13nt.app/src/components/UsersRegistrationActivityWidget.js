@@ -1,8 +1,9 @@
 import { CardContent, Card, Box, Typography } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
+import { useState } from "react";
 
-const data = [
+/*const data = [
   {
     name: "Jan",
     amount: 2,
@@ -19,12 +20,33 @@ const data = [
     name: "Avr",
     amount: 0,
   },
-];
+];*/
 
-const totalNewUsers = "37";
+const UsersRegistrationActivityWidget = (props) => {
 
-const UsersRegistrationActivityWidget = () => {
+  const totalNewUsers = "37";
   const theme = useTheme();
+  const [data, setDatas] = useState([
+    {
+      name: "Jan",
+      amount: 2,
+    },
+    {
+      name: "Feb",
+      amount: 10,
+    },
+    {
+      name: "Mar",
+      amount: 30,
+    },
+    {
+      name: "Avr",
+      amount: 0,
+    },
+  ]);
+  //props.users
+  /*{props.users.map((meeting) => (
+  ))};*/
   return (
     <Card>
       <CardContent>

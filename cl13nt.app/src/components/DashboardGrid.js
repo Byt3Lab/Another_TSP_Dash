@@ -7,7 +7,7 @@ import { UsersRegistrationActivityWidget } from "./UsersRegistrationActivityWidg
 import { NewlyJoinedUsersWidgets } from "./NewlyJoinedUsersWidgets";
 import { SalesWidget } from "./SalesHistoryWidget";
 import { CommandsActivityWidget } from "./ActivityWidget";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { firestore } from "../firebase/firebase";
 
 const DashboardGrid = (props) => {
@@ -29,9 +29,9 @@ const DashboardGrid = (props) => {
           console.log(books, newBooks)
         })
     }
-    // get all the users
+    // get all the users .collection("users_accnt").orderBy("created_at", "asc")
     const fetchUsers = async () => {
-      await getDocs(collection(firestore, "users_accnt"))
+      await getDocs(query(collection(firestore, "users_accnt"), orderBy("created_at", "asc")))
         .then((querySnapshot) => {
           const newUsers = querySnapshot.docs
             .map((doc) => ({...doc.data(), id:doc.id}))
@@ -73,10 +73,10 @@ const DashboardGrid = (props) => {
         </Grid>
         <Grid item xs={12} md={6} lg={4}>
           <EntitiesSummaryWidget drivers={drivers} users={users} books={books}/>
-          <UsersRegistrationActivityWidget />
+          <UsersRegistrationActivityWidget users={users}/>
         </Grid>
         <Grid item xs={12} md={6} lg={4}>
-          <NewlyJoinedUsersWidgets />
+          <NewlyJoinedUsersWidgets users={users}/>
         </Grid>
         <Grid item xs={12} md={12}>
           <CommandsActivityWidget />

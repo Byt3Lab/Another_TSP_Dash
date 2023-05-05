@@ -5,6 +5,9 @@ import PeopleIcon from "@mui/icons-material/People";
 import LocalTaxiIcon from "@mui/icons-material/LocalTaxi";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
+import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
+import EmojiObjectsIcon from '@mui/icons-material/EmojiObjects';
+import TaxiAlertIcon from '@mui/icons-material/TaxiAlert';
 
 const SideMenu = (props) => {
   return props.isExpanded ? (
@@ -42,6 +45,24 @@ const SideMenu = (props) => {
               <li className="flex items-center px-5 py-6 text-base font-medium text-white rounded-lg hover:bg-gray-700">
                 <MonetizationOnIcon />
                 <span className="ml-3">Commandes</span>
+              </li>
+            </Link>
+            <Link to="/objets">
+              <li className="flex items-center px-5 py-6 text-base font-medium text-white rounded-lg hover:bg-gray-700">
+                <EmojiObjectsIcon />
+                <span className="ml-3">Objets perdus/Retrouvés</span>
+              </li>
+            </Link>
+            <Link to="/objets">
+              <li className="flex items-center px-5 py-6 text-base font-medium text-white rounded-lg hover:bg-gray-700">
+                <LocalGasStationIcon />
+                <span className="ml-3">Souscriptions Carburants</span>
+              </li>
+            </Link>
+            <Link to="/objets">
+              <li className="flex items-center px-5 py-6 text-base font-medium text-white rounded-lg hover:bg-gray-700">
+                <TaxiAlertIcon />
+                <span className="ml-3">Souscriptions Covoiturage</span>
               </li>
             </Link>
             <Link to="/fleet">
