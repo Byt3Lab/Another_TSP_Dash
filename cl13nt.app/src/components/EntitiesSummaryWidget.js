@@ -43,7 +43,7 @@ const summary = [
   },
 ];
 
-const EntitiesSummaryWidget = () => {
+const EntitiesSummaryWidget = (props) => {
   return (
     <React.Fragment>
       {summary.map((item) => (
@@ -57,7 +57,10 @@ const EntitiesSummaryWidget = () => {
             </Avatar>
             <Box sx={{ flexGrow: 1 }}>
               <Typography component="div" variant="h6">
-                {item.value}
+                { item.name === "Utilisateurs" ? item.value = props.users.length : ""}
+                { item.name === "Commandes" ? item.value = props.books.length : ""}
+                { item.name === "Vehicules" ? item.value = props.drivers.length : ""}
+                { item.name === "Ventes" ? item.value = "15" : ""}
               </Typography>
               <Typography variant="body2" color="textSecondary" component="div">
                 {item.unitKey}
