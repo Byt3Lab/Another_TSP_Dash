@@ -1,0 +1,21 @@
+[
+  {
+    "_id": { "$oid": "644a5c347c685904001beb30" },
+    "name": "TSP",
+    "forename": "Administrator",
+    "age": 30,
+    "genre": "Male",
+    "profilePic": "",
+    "roleLabel": "Administrator",
+    "work_at": "Transport Service +"
+  },
+  {
+    "_id": {
+      "$oid": "644a5cab7c685904001beb33"
+    },
+    "adminID": { "$oid": "644a5c347c685904001beb30" },
+    "mail": "mailed@mail.com",
+    "phone": "+242012345678",
+    "pwd": "$2a$10$Z8rqLcdh7qVSfr8K9Jpb3eb4VKWmsDUww9y7y2DMEsOdktlXuM.va"
+  }
+]
