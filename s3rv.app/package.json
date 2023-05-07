@@ -1,0 +1,62 @@
+{
+  "name": "menzen_api",
+  "version": "1.0.0",
+  "description": "The API Repo For Menzen.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Milo40/M3NZ3N.git"
+  },
+  "keywords": [
+    "API",
+    "App",
+    "System",
+    "Menzen",
+    "Backend",
+    "Attendance",
+    "Management",
+    "Monitoring",
+    "Internal",
+    "Employee",
+    "Salary",
+    "Presence",
+    "Tasks",
+    "Scalable",
+    "Fast",
+    "Stable"
+  ],
+  "author": "M1L040",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Milo40/M3NZ3N/issues"
+  },
+  "homepage": "https://github.com/Milo40/M3NZ3N#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.1",
+    "chalk": "^4.0.0",
+    "chalkercli": "^1.6.4",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.2",
+    "find-config": "^1.0.0",
+    "helmet": "^6.0.0",
+    "json-stringify-safe": "^5.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.4",
+    "mongodb": "^4.3.1",
+    "mongoose": "^6.2.0",
+    "typescript": "^5.0.4",
+    "validation": "^0.0.1"
+  }
+}
