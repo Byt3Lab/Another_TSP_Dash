@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /.pnp
+/cl13nt.app/.env
 .pnp.js
 
 # testing
