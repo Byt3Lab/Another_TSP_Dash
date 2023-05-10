@@ -88,11 +88,72 @@ const UserRow = ({
 
   const dateOptions = {
     day: "2-digit",
-    year: "2-digit",
+    year: "4-digit",
     month: "short",
     weekday: "short",
     hour: "2-digit",
     minute: "2-digit",
+  };
+
+  const created_at = () => {
+    if (
+      new Date(
+        user.created_at.seconds * 1000 + user.created_at.nanoseconds / 1000000
+      ).getDay() === new Date().getDay() &&
+      new Date(
+        user.created_at.seconds * 1000 + user.created_at.nanoseconds / 1000000
+      ).getMonth() === new Date().getMonth() &&
+      new Date(
+        user.created_at.seconds * 1000 + user.created_at.nanoseconds / 1000000
+      ).getFullYear() === new Date().getFullYear()
+    ) {
+      return "Aujourd'hui";
+    } else if (
+      new Date(
+        user.created_at.seconds * 1000 + user.created_at.nanoseconds / 1000000
+      ).getDay() ===
+        new Date().getDay() - 1 &&
+      new Date(
+        user.created_at.seconds * 1000 + user.created_at.nanoseconds / 1000000
+      ).getMonth() === new Date().getMonth() &&
+      new Date(
+        user.created_at.seconds * 1000 + user.created_at.nanoseconds / 1000000
+      ).getFullYear() === new Date().getFullYear()
+    ) {
+      return "Hier";
+    } else if (
+      new Date(
+        user.created_at.seconds * 1000 + user.created_at.nanoseconds / 1000000
+      ).getDay() ===
+        new Date().getDay() - 2 &&
+      new Date(
+        user.created_at.seconds * 1000 + user.created_at.nanoseconds / 1000000
+      ).getMonth() === new Date().getMonth() &&
+      new Date(
+        user.created_at.seconds * 1000 + user.created_at.nanoseconds / 1000000
+      ).getFullYear() === new Date().getFullYear()
+    ) {
+      return "Avant-hier";
+    } else if (
+      new Date(
+        user.created_at.seconds * 1000 + user.created_at.nanoseconds / 1000000
+      ).getDay() ===
+        new Date().getDay() - 3 &&
+      new Date(
+        user.created_at.seconds * 1000 + user.created_at.nanoseconds / 1000000
+      ).getMonth() === new Date().getMonth() &&
+      new Date(
+        user.created_at.seconds * 1000 + user.created_at.nanoseconds / 1000000
+      ).getFullYear() === new Date().getFullYear()
+    ) {
+      return "Il y a 3 jours";
+    } else {
+      return new Date(
+        user.created_at.seconds * 1000 + user.created_at.nanoseconds / 1000000
+      )
+        .toLocaleString("fr-CM")
+        .toString();
+    }
   };
 
   const labelId = `enhanced-table-checkbox-${index}`;
@@ -192,12 +253,7 @@ const UserRow = ({
       <TableCell align="center">
         <Box>
           <Typography color="textSecondary" variant="body2">
-            {new Date(
-              user.created_at.seconds * 1000 +
-                user.created_at.nanoseconds / 1000000
-            )
-              .toLocaleString("fr-CM", dateOptions)
-              .toString()}
+            {created_at()}
           </Typography>
         </Box>
       </TableCell>
