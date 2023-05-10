@@ -25,6 +25,7 @@ import { useState } from "react";
 const UsersRegistrationActivityWidget = (props) => {
 
   const totalNewUsers = "37";
+  const todayDate = new Date();
   const theme = useTheme();
   const [data, setDatas] = useState([
     {
