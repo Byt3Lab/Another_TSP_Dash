@@ -43,6 +43,6 @@ export const fetchUsers = async () => {
 
       return baseData;
     });
-  //console.log("2nd THEN", usersData);
+  console.log("2nd THEN", usersData);
   return usersData;
 };

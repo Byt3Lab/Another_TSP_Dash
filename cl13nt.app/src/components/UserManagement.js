@@ -8,7 +8,6 @@ import UserDialog from "./UserDialog";
 import UserTable from "./UserTable";
 import { fetchUsers } from "../hooks/getUsers";
 import { useDeleteUsers } from "../hooks/deleteUsers";
-import { useUpdateUser } from "../hooks/updateUser";
 import { addUser } from "../hooks/addUser";
 import AddIcon from "@mui/icons-material/Add";
 
@@ -20,7 +19,6 @@ const UserManagement = (props) => {
   const [selected, setSelected] = useState([]);
   const [userDeleted, setUserDeleted] = useState([]);
   const [userUpdated, setUserUpdated] = useState(undefined);
-  const { isUpdating, updateUser } = useUpdateUser();
   const { deleteUsers, isDeleting } = useDeleteUsers();
   const [users, setUsers] = useState([]);
   const [isOperating, setIsOperating] = useState(props.isLoaded);
@@ -74,16 +72,7 @@ const UserManagement = (props) => {
       });
   };
 
-  const handleUpdateUser = async (user) => {
-    updateUser(user)
-      .then(() => {
-        snackbar.success("L'utilisateur a bien ete mis a jour");
-        setOpenUserDialog(false);
-      })
-      .catch(() => {
-        snackbar.error("Une erreur est survenue a la mise a jour");
-      });
-  };
+  const handleViewUser = async (user) => {};
 
   const handleCancelSelected = () => {
     setSelected([]);
@@ -154,7 +143,7 @@ const UserManagement = (props) => {
         <UserDialog
           onAdd={handleAddUser}
           onClose={handleCloseUserDialog}
-          onUpdate={handleUpdateUser}
+          onView={handleViewUser}
           open={openUserDialog}
           processing={processing}
           user={userUpdated}
