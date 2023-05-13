@@ -89,7 +89,7 @@ export const addUser = async (user) => {
     }
     return credsDocRef.id !== undefined && credsDocRef.id !== null;
   } catch (error) {
-    console.log("ERROR IN ADDING USER", error);
+    //console.log("ERROR IN ADDING USER", error);
     return false;
   }
 };

@@ -7,8 +7,8 @@ import { useSnackbar } from "../contexts/SnackbarProvider";
 import UserDialog from "./UserDialog";
 import UserTable from "./UserTable";
 import { fetchUsers } from "../hooks/getUsers";
-import { useDeleteUsers } from "../hooks/deleteUsers";
 import { addUser } from "../hooks/addUser";
+import { deleteUsers } from "../hooks/deleteUsers";
 import AddIcon from "@mui/icons-material/Add";
 
 const UserManagement = (props) => {
@@ -17,16 +17,24 @@ const UserManagement = (props) => {
   const [openConfirmDeleteDialog, setOpenConfirmDeleteDialog] = useState(false);
   const [openUserDialog, setOpenUserDialog] = useState(false);
   const [selected, setSelected] = useState([]);
-  const [userDeleted, setUserDeleted] = useState([]);
+  const [usersToDelete, setUsersToDelete] = useState([]);
   const [userUpdated, setUserUpdated] = useState(undefined);
-  const { deleteUsers, isDeleting } = useDeleteUsers();
   const [users, setUsers] = useState([]);
   const [isOperating, setIsOperating] = useState(props.isLoaded);
 
   useEffect(() => {
     props.setIsLoaded(false);
+    setUsers([]);
     handleGetUsers();
   }, []);
+
+  useEffect(() => {
+    //console.log("USERS TO DELETE IDS ", usersToDelete, usersToDelete.length);
+  }, [usersToDelete]);
+
+  const setUsersToBeDeleted = (ids) => {
+    setUsersToDelete((prevState) => [...prevState, ...ids]);
+  };
 
   const processing = !props.isLoaded || isOperating;
 
@@ -60,15 +68,26 @@ const UserManagement = (props) => {
   };
 
   const handleDeleteUsers = async () => {
-    deleteUsers(userDeleted)
-      .then(() => {
-        snackbar.success("L'utilisateur a bien ete supprime");
-        setSelected([]);
-        setUserDeleted([]);
-        setOpenConfirmDeleteDialog(false);
+    setIsOperating(true);
+    console.log("USERS TO DELETE PASSED ", usersToDelete, usersToDelete.length);
+    deleteUsers(usersToDelete)
+      .then((result) => {
+        if (result === true) {
+          snackbar.success("L'utilisateur a bien ete supprime");
+          setSelected([]);
+          setOpenConfirmDeleteDialog(false);
+          setIsOperating(false);
+          setUsersToDelete([]);
+          setUsers([]);
+          handleGetUsers();
+        } else {
+          snackbar.error("Une erreur est survenue a la suppression");
+          setIsOperating(false);
+        }
       })
       .catch(() => {
         snackbar.error("Une erreur est survenue a la suppression");
+        setIsOperating(false);
       });
   };
 
@@ -80,6 +99,8 @@ const UserManagement = (props) => {
 
   const handleCloseConfirmDeleteDialog = () => {
     setOpenConfirmDeleteDialog(false);
+    setSelected([]);
+    setUsersToDelete([]);
   };
 
   const handleCloseUserDialog = () => {
@@ -88,7 +109,7 @@ const UserManagement = (props) => {
   };
 
   const handleOpenConfirmDeleteDialog = (userIds) => {
-    setUserDeleted(userIds);
+    setUsersToBeDeleted(userIds);
     setOpenConfirmDeleteDialog(true);
   };
 
@@ -126,13 +147,13 @@ const UserManagement = (props) => {
       <UserTable
         processing={processing}
         onDelete={handleOpenConfirmDeleteDialog}
-        onEdit={handleOpenUserDialog}
+        onView={handleOpenUserDialog}
         onSelectedChange={handleSelectedChange}
         selected={selected}
         users={users}
       />
       <ConfirmDialog
-        description={"Ceci sera irreversible"}
+        description={"Cette action sera irreversible !"}
         pending={processing}
         onClose={handleCloseConfirmDeleteDialog}
         onConfirm={handleDeleteUsers}

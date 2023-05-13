@@ -31,6 +31,7 @@ export const fetchUsers = async () => {
       const credsData = await getDocs(getCredsByCreatedAtQuery).then(
         async (querySnapshot) => {
           const tempCredsData = querySnapshot.docs.map((doc) => ({
+            creds_id: doc.id,
             ...doc.data(),
           }));
 
@@ -43,6 +44,6 @@ export const fetchUsers = async () => {
 
       return baseData;
     });
-  console.log("2nd THEN", usersData);
+  //console.log("2nd THEN", usersData);
   return usersData;
 };

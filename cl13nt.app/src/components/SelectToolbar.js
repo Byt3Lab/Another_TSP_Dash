@@ -7,7 +7,12 @@ const SelectToolbar = ({ onCancel, onDelete, processing, selected }) => {
 
   return (
     <Toolbar sx={{ ml: 1, px: { xs: 3, sm: 6 } }}>
-      <Fab color="secondary" onClick={onCancel} variant="extended">
+      <Fab
+        color="secondary"
+        onClick={onCancel}
+        variant="extended"
+        sx={{ zIndex: 0 }}
+      >
         <CloseIcon sx={{ mr: 1 }} />
         {numSelected} {"Selectionnés"}
       </Fab>
@@ -19,6 +24,7 @@ const SelectToolbar = ({ onCancel, onDelete, processing, selected }) => {
             color="secondary"
             disabled={processing}
             onClick={() => onDelete(selected)}
+            sx={{ zIndex: 0 }}
           >
             <DeleteIcon />
           </Fab>

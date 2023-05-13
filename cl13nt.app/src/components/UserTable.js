@@ -79,21 +79,12 @@ const UserRow = ({
   index,
   onCheck,
   onDelete,
-  onEdit,
+  onView,
   processing,
   selected,
   user,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-
-  const dateOptions = {
-    day: "2-digit",
-    year: "4-digit",
-    month: "short",
-    weekday: "short",
-    hour: "2-digit",
-    minute: "2-digit",
-  };
 
   const created_at = () => {
     if (
@@ -169,12 +160,12 @@ const UserRow = ({
 
   const handleDelete = () => {
     handleCloseActions();
-    onDelete([user.id]);
+    onDelete([[user.id, user.creds_id]]);
   };
 
-  const handleEdit = () => {
+  const handleView = () => {
     handleCloseActions();
-    onEdit(user);
+    onView(user);
   };
 
   return (
@@ -195,7 +186,7 @@ const UserRow = ({
           inputProps={{
             "aria-labelledby": labelId,
           }}
-          onClick={() => onCheck(user.id)}
+          onClick={() => onCheck(user.id, user.creds_id)}
         />
       </TableCell>
       <TableCell>
@@ -287,7 +278,7 @@ const UserRow = ({
             horizontal: "right",
           }}
         >
-          <MenuItem onClick={handleEdit}>
+          <MenuItem onClick={handleView}>
             <ListItemIcon>
               <PersonSearchIcon />
             </ListItemIcon>{" "}
@@ -307,7 +298,7 @@ const UserRow = ({
 
 const UserTable = ({
   onDelete,
-  onEdit,
+  onView,
   onSelectedChange,
   processing,
   selected,
@@ -318,16 +309,18 @@ const UserTable = ({
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = selectUtils.selectAll(users);
-      onSelectedChange(newSelecteds);
+      const newSelectedIds = selectUtils.selectAll(users);
+      onSelectedChange(newSelectedIds);
+      //console.log("ALL IDS SELECTED ", newSelectedIds);
       return;
     }
     onSelectedChange([]);
   };
 
-  const handleClick = (id) => {
-    let newSelected = selectUtils.selectOne(selected, id);
+  const handleClick = (base_id, cred_id) => {
+    let newSelected = selectUtils.selectOne(selected, base_id, cred_id);
     onSelectedChange(newSelected);
+    //console.log("UPDATED SELECTED IDS ", newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -339,7 +332,13 @@ const UserTable = ({
     setPage(0);
   };
 
-  const isSelected = (id) => selected.indexOf(id) !== -1;
+  function isInArr(array2d, item) {
+    return (
+      [].concat.apply([], [].concat.apply([], array2d)).indexOf(item) !== -1
+    );
+  }
+
+  const isSelected = (id) => isInArr(selected, id);
 
   if (users.length === 0) {
     return <Empty title="Pas encore d'utilisateur" />;
@@ -370,7 +369,7 @@ const UserTable = ({
                   key={user.id}
                   onCheck={handleClick}
                   onDelete={onDelete}
-                  onEdit={onEdit}
+                  onView={onView}
                   processing={processing}
                   selected={isSelected(user.id)}
                   user={user}
