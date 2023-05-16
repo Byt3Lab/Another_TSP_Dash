@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { GetDashboardData } from "../services/GetDashboardData.Service.ts";
 import { Grid } from "@mui/material";
 import { EntitiesSummaryWidget } from "./EntitiesSummaryWidget";
 import { HelloCard } from "./HelloCard";
@@ -11,14 +10,17 @@ import { CommandsActivityWidget } from "./ActivityWidget";
 const DashboardGrid = (props) => {
   useEffect(() => {
     props.setIsLoaded(false);
-    GetDashboardData().then((response) => {
-      if (response.worked && response.worked === true) {
-        props.setIsLoaded(true);
-        console.log(response);
-      } else {
-        console.log("Failed : ", response);
-      }
-    });
+    setTimeout(() => {
+      props.setIsLoaded(true);
+    }, 3000);
+    // GetDashboardData().then((response) => {
+    //   if (response.worked && response.worked === true) {
+    //     props.setIsLoaded(true);
+    //     console.log(response);
+    //   } else {
+    //     console.log("Failed : ", response);
+    //   }
+    // });
   }, []);
 
   return (
