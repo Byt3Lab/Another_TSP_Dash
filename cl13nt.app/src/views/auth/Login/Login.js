@@ -8,7 +8,7 @@ import { ArobaseIcon } from "../../../components/Svgs/ArobaseIcon";
 import { AnimatedLoading } from "../../../components/Svgs/AnimatedLoading";
 import { TickIcon } from "../../../components/Svgs/TickIcon";
 import { TimesIcon } from "../../../components/Svgs/TimesIcon";
-import { LoginService } from "../../../services/Login.Service.ts";
+import { SignInService } from "../../../services/signIn.service.ts";
 
 const encryptPassword = async (password) => {
   try {
@@ -51,7 +51,7 @@ const Login = () => {
         password: encPwd,
       },
     };
-    LoginService(data).then((response) => {
+    SignInService(data).then((response) => {
       setIsAuthenticating(false);
       if (response.data && response.data.auth && response.data.uid) {
         setAuthOK(true);

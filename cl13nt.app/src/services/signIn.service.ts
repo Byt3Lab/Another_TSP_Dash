@@ -1,14 +1,16 @@
-const LoginService = async (data) => {
+const SignInService = async (data) => {
   try {
     const response = await fetch(
       `https://adminsigninhandler-kaful2golq-uc.a.run.app`,
       {
         method: "POST",
         mode: "cors",
-        credentials: "include",
+        credentials: "omit",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": "true",
         },
         body: JSON.stringify(data),
       }
@@ -19,4 +21,4 @@ const LoginService = async (data) => {
   }
 };
 
-export { LoginService };
+export { SignInService };
