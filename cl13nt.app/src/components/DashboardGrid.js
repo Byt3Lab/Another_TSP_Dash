@@ -7,14 +7,16 @@ import { UsersRegistrationActivityWidget } from "./UsersRegistrationActivityWidg
 import { NewlyJoinedUsersWidgets } from "./NewlyJoinedUsersWidgets";
 import { SalesWidget } from "./SalesHistoryWidget";
 import { CommandsActivityWidget } from "./ActivityWidget";
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { firestore } from "../firebase/firebase";
 
 const DashboardGrid = (props) => {
 
   const [drivers, setDrivers] = useState([])
   const [users, setUsers] = useState([])
+  const [monthUsers, setMonthUsers] = useState([])
   const [books, setBooks] = useState([])
+  const date = new Date().toLocaleString()
 
   useEffect(() => {
     props.setIsLoaded(false);
@@ -40,6 +42,17 @@ const DashboardGrid = (props) => {
           console.log(users, newUsers)
         })
     }
+    // get all the users .collection("users_accnt").orderBy("current month")
+    const fetchMonthUsers = async () => {
+      await getDocs(query(collection(firestore, "users_accnt"), where("created_at", "<" ,date)))
+        .then((querySnapshot) => {
+          const newUsers = querySnapshot.docs
+            .map((doc) => ({...doc.data(), id:doc.id}))
+          setMonthUsers(newUsers)
+          console.log("month users : ")
+          console.log(monthUsers, newUsers)
+        })
+    }
     // get all the drivers
     const fetchDrivers = async () => {
       await getDocs(collection(firestore, "drivers_applications"))
@@ -62,6 +75,7 @@ const DashboardGrid = (props) => {
     fetchBooks();
     fetchDrivers();
     fetchUsers();
+    fetchMonthUsers();
   }, []);
 
   return (
