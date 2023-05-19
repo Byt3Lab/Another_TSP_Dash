@@ -1,6 +1,7 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import React, { useState } from "react";
 import Empty from "./Empty";
 import * as selectUtils from "../utils/selectUtils";
@@ -22,28 +23,32 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { randomColor } from "../utils/randColorCode";
 
 const headCells = [
   {
-    id: "user",
+    id: "applicantName",
     align: "left",
-    label: "Utilisateur",
+    label: "Nom du chauffeur (prétendu)",
   },
   {
-    id: "state",
+    id: "vehicle",
     align: "center",
-    label: "Status",
+    label: "Véhicule",
   },
   {
-    id: "type",
+    id: "applicantType",
     align: "center",
-    label: "Type de compte",
+    label: "Type de chauffeur",
+  },
+  {
+    id: "workingHours",
+    align: "center",
+    label: "Cadrant de travail",
   },
   {
     id: "createdAt",
     align: "center",
-    label: "Date inscription",
+    label: "Date de la requête",
   },
 ];
 
@@ -58,7 +63,7 @@ function EnhancedTableHead({ onSelectAllClick, numSelected, rowCount }) {
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{
-              "aria-label": "Select all users",
+              "aria-label": "Select all applicants",
             }}
           />
         </TableCell>
@@ -75,72 +80,86 @@ function EnhancedTableHead({ onSelectAllClick, numSelected, rowCount }) {
   );
 }
 
-const UserRow = ({
+const ApplicationRow = ({
   index,
   onCheck,
   onDelete,
+  onValidate,
   onView,
   processing,
   selected,
-  user,
+  application,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const created_at = () => {
     if (
       new Date(
-        user.created_at.seconds * 1000 + user.created_at.nanoseconds / 1000000
+        application.created_at.seconds * 1000 +
+          application.created_at.nanoseconds / 1000000
       ).getDay() === new Date().getDay() &&
       new Date(
-        user.created_at.seconds * 1000 + user.created_at.nanoseconds / 1000000
+        application.created_at.seconds * 1000 +
+          application.created_at.nanoseconds / 1000000
       ).getMonth() === new Date().getMonth() &&
       new Date(
-        user.created_at.seconds * 1000 + user.created_at.nanoseconds / 1000000
+        application.created_at.seconds * 1000 +
+          application.created_at.nanoseconds / 1000000
       ).getFullYear() === new Date().getFullYear()
     ) {
       return "Aujourd'hui";
     } else if (
       new Date(
-        user.created_at.seconds * 1000 + user.created_at.nanoseconds / 1000000
+        application.created_at.seconds * 1000 +
+          application.created_at.nanoseconds / 1000000
       ).getDay() ===
         new Date().getDay() - 1 &&
       new Date(
-        user.created_at.seconds * 1000 + user.created_at.nanoseconds / 1000000
+        application.created_at.seconds * 1000 +
+          application.created_at.nanoseconds / 1000000
       ).getMonth() === new Date().getMonth() &&
       new Date(
-        user.created_at.seconds * 1000 + user.created_at.nanoseconds / 1000000
+        application.created_at.seconds * 1000 +
+          application.created_at.nanoseconds / 1000000
       ).getFullYear() === new Date().getFullYear()
     ) {
       return "Hier";
     } else if (
       new Date(
-        user.created_at.seconds * 1000 + user.created_at.nanoseconds / 1000000
+        application.created_at.seconds * 1000 +
+          application.created_at.nanoseconds / 1000000
       ).getDay() ===
         new Date().getDay() - 2 &&
       new Date(
-        user.created_at.seconds * 1000 + user.created_at.nanoseconds / 1000000
+        application.created_at.seconds * 1000 +
+          application.created_at.nanoseconds / 1000000
       ).getMonth() === new Date().getMonth() &&
       new Date(
-        user.created_at.seconds * 1000 + user.created_at.nanoseconds / 1000000
+        application.created_at.seconds * 1000 +
+          application.created_at.nanoseconds / 1000000
       ).getFullYear() === new Date().getFullYear()
     ) {
       return "Avant-hier";
     } else if (
       new Date(
-        user.created_at.seconds * 1000 + user.created_at.nanoseconds / 1000000
+        application.created_at.seconds * 1000 +
+          application.created_at.nanoseconds / 1000000
       ).getDay() ===
         new Date().getDay() - 3 &&
       new Date(
-        user.created_at.seconds * 1000 + user.created_at.nanoseconds / 1000000
+        application.created_at.seconds * 1000 +
+          application.created_at.nanoseconds / 1000000
       ).getMonth() === new Date().getMonth() &&
       new Date(
-        user.created_at.seconds * 1000 + user.created_at.nanoseconds / 1000000
+        application.created_at.seconds * 1000 +
+          application.created_at.nanoseconds / 1000000
       ).getFullYear() === new Date().getFullYear()
     ) {
       return "Il y a 3 jours";
     } else {
       return new Date(
-        user.created_at.seconds * 1000 + user.created_at.nanoseconds / 1000000
+        application.created_at.seconds * 1000 +
+          application.created_at.nanoseconds / 1000000
       )
         .toLocaleString("fr-CM")
         .toString();
@@ -160,19 +179,24 @@ const UserRow = ({
 
   const handleDelete = () => {
     handleCloseActions();
-    onDelete([[user.id, user.creds_id]]);
+    onDelete([[application.id, application.userBaseData.id]]);
   };
 
   const handleView = () => {
     handleCloseActions();
-    onView(user);
+    onView(application);
+  };
+
+  const handleValidate = () => {
+    handleCloseActions();
+    onValidate([[application.id, application.userBaseData.id]]);
   };
 
   return (
     <TableRow
       aria-checked={selected}
       tabIndex={-1}
-      key={user.id}
+      key={application.id}
       selected={selected}
       sx={{ "& td": { bgcolor: "background.paper", border: 0 } }}
     >
@@ -186,60 +210,38 @@ const UserRow = ({
           inputProps={{
             "aria-labelledby": labelId,
           }}
-          onClick={() => onCheck(user.id, user.creds_id)}
+          onClick={() => onCheck(application.id, application.userBaseData.id)}
         />
       </TableCell>
       <TableCell>
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          {user.profilePic === "" ? (
-            <Avatar
-              sx={{
-                mr: 3,
-                width: 56,
-                height: 56,
-                backgroundColor: randomColor(),
-                fontSize: 30,
-                fontWeight: "bold",
-                color: "white",
-              }}
-            >
-              {user.name != null && user.name !== ""
-                ? user.name.toString().charAt(0).toUpperCase()
-                : user.forename.toString().charAt(0).toUpperCase()}
-            </Avatar>
-          ) : (
-            <Avatar
-              alt="User picture"
-              src={user.profilePic}
-              sx={{ mr: 3, width: 56, height: 56 }}
-            />
-          )}
+          <Avatar
+            alt="Supposely a profile picture"
+            sx={{ mr: 3, width: 56, height: 56 }}
+          />
           <Box>
             <Typography component="div" variant="h6">
-              {`${user.name} ${user.forename}`}
+              {`${application.name} ${application.forename}`}
             </Typography>
             <Typography color="textSecondary" variant="body2">
-              {user.mail}
+              {application.mail}
             </Typography>
             <Typography color="textSecondary" variant="body2">
-              {user.phone}
+              {application.phone}
             </Typography>
           </Box>
         </Box>
       </TableCell>
       <TableCell align="center">
-        {user.state ? (
-          <Chip color="primary" label="Activé" />
-        ) : (
-          <Chip color="warning" label="Désactivé" />
-        )}
+        <Typography component="div" variant="h6">
+          {`${application.supplementBrand} ${application.supplementModel}`}
+        </Typography>
       </TableCell>
       <TableCell align="center">
-        {user.isDriver ? (
-          <Chip color="primary" label="Chauffeur" />
-        ) : (
-          <Chip color="info" label="Utilisateur" />
-        )}
+        <Chip color="primary" label={application.supplementDriverStatus} />
+      </TableCell>
+      <TableCell align="center">
+        <Chip color="primary" label={`${application.supplementWorkTime}`} />
       </TableCell>
       <TableCell align="center">
         <Box>
@@ -253,9 +255,9 @@ const UserRow = ({
         sx={{ borderTopRightRadius: "1rem", borderBottomRightRadius: "1rem" }}
       >
         <IconButton
-          id="user-row-menu-button"
-          aria-label="user actions"
-          aria-controls="user-row-menu"
+          id="application-row-menu-button"
+          aria-label="application actions"
+          aria-controls="application-row-menu"
           aria-haspopup="true"
           aria-expanded={openActions ? "true" : "false"}
           disabled={processing}
@@ -264,9 +266,9 @@ const UserRow = ({
           <MoreVertIcon />
         </IconButton>
         <Menu
-          id="user-row-menu"
+          id="application-row-menu"
           anchorEl={anchorEl}
-          aria-labelledby="user-row-menu-button"
+          aria-labelledby="application-row-menu-button"
           open={openActions}
           onClose={handleCloseActions}
           anchorOrigin={{
@@ -278,6 +280,12 @@ const UserRow = ({
             horizontal: "right",
           }}
         >
+          <MenuItem onClick={handleValidate}>
+            <ListItemIcon>
+              <CheckCircleIcon />
+            </ListItemIcon>{" "}
+            {"Valider"}
+          </MenuItem>
           <MenuItem onClick={handleView}>
             <ListItemIcon>
               <PersonSearchIcon />
@@ -296,20 +304,21 @@ const UserRow = ({
   );
 };
 
-const UserTable = ({
+const DriverRequestsTable = ({
   onDelete,
+  onValidate,
   onView,
   onSelectedChange,
   processing,
   selected,
-  users = [],
+  applications = [],
 }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelectedIds = selectUtils.selectAll(users);
+      const newSelectedIds = selectUtils.selectAllApplications(applications);
       onSelectedChange(newSelectedIds);
       //console.log("ALL IDS SELECTED ", newSelectedIds);
       return;
@@ -317,8 +326,8 @@ const UserTable = ({
     onSelectedChange([]);
   };
 
-  const handleClick = (base_id, cred_id) => {
-    let newSelected = selectUtils.selectOne(selected, base_id, cred_id);
+  const handleClick = (application_id, base_id) => {
+    let newSelected = selectUtils.selectOne(selected, application_id, base_id);
     onSelectedChange(newSelected);
     //console.log("UPDATED SELECTED IDS ", newSelected);
   };
@@ -340,8 +349,8 @@ const UserTable = ({
 
   const isSelected = (id) => isInArr(selected, id);
 
-  if (users.length === 0) {
-    return <Empty title="Pas encore d'utilisateur." />;
+  if (applications.length === 0) {
+    return <Empty title="Pas de nouvelle requête jusque là..." />;
   }
 
   return (
@@ -358,21 +367,22 @@ const UserTable = ({
           <EnhancedTableHead
             numSelected={selected.length}
             onSelectAllClick={handleSelectAllClick}
-            rowCount={users.length}
+            rowCount={applications.length}
           />
           <TableBody>
-            {users
+            {applications
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((user, index) => (
-                <UserRow
+              .map((application, index) => (
+                <ApplicationRow
                   index={index}
-                  key={user.id}
+                  key={application.id}
                   onCheck={handleClick}
                   onDelete={onDelete}
+                  onValidate={onValidate}
                   onView={onView}
                   processing={processing}
-                  selected={isSelected(user.id)}
-                  user={user}
+                  selected={isSelected(application.id)}
+                  application={application}
                 />
               ))}
           </TableBody>
@@ -381,7 +391,7 @@ const UserTable = ({
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
-        count={users.length}
+        count={applications.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
@@ -392,4 +402,4 @@ const UserTable = ({
   );
 };
 
-export default UserTable;
+export default DriverRequestsTable;

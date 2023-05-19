@@ -11,7 +11,8 @@ import { NavBar } from "../components/NavBar";
 import { SideMenu } from "../components/SideMenu";
 import { RouteGuardian } from "./RouteGuardian";
 import { Overlay } from "../components/LoadingOverlay";
-import UserManagementView from "../views/users/userManagement/ManageUsers";
+import UserManagementView from "../views/users/UserManagement/ManageUsers";
+import FleetView from "../views/users/Fleet/Fleet";
 
 const WithMenu = (props) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -114,6 +115,16 @@ const Routing = () => {
                     isLoaded={isLoaded}
                     setIsLoaded={setIsLoaded}
                   />
+                }
+              />
+            }
+          />
+          <Route
+            path="/fleet"
+            element={
+              <RouteGuardian
+                componente={
+                  <FleetView isLoaded={isLoaded} setIsLoaded={setIsLoaded} />
                 }
               />
             }

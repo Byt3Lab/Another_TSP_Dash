@@ -23,7 +23,7 @@ const RouteGuardian = (props) => {
     return flag;
   }
 
-  console.log("Status Here : ", hasJWT());
+  // console.log("Status Here : ", hasJWT());
 
   return hasJWT() ? (
     props.componente

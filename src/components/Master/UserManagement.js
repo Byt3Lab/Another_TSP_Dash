@@ -1,14 +1,14 @@
 import { Fab } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import AdminToolbar from "./AdminToolbar";
-import ConfirmDialog from "./ConfirmDialog";
-import SelectToolbar from "./SelectToolbar";
-import { useSnackbar } from "../contexts/SnackbarProvider";
-import UserDialog from "./UserDialog";
-import UserTable from "./UserTable";
-import { fetchUsers } from "../hooks/getUsers";
-import { addUser } from "../hooks/addUser";
-import { deleteUsers } from "../hooks/deleteUsers";
+import AdminToolbar from "../AdminToolbar";
+import ConfirmDialog from "../ConfirmDialog";
+import SelectToolbar from "../SelectToolbar";
+import { useSnackbar } from "../../contexts/SnackbarProvider";
+import UserDialog from "../UserDialog";
+import UserTable from "../UserTable";
+import { fetchUsers } from "../../hooks/getUsers";
+import { addUser } from "../../hooks/addUser";
+import { deleteUsers } from "../../hooks/deleteUsers";
 import AddIcon from "@mui/icons-material/Add";
 
 const UserManagement = (props) => {
@@ -132,6 +132,9 @@ const UserManagement = (props) => {
             disabled={processing}
             onClick={() => handleOpenUserDialog()}
             size="medium"
+            sx={{
+              zIndex: 0,
+            }}
           >
             <AddIcon />
           </Fab>

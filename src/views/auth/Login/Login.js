@@ -9,6 +9,7 @@ import { AnimatedLoading } from "../../../components/Svgs/AnimatedLoading";
 import { TickIcon } from "../../../components/Svgs/TickIcon";
 import { TimesIcon } from "../../../components/Svgs/TimesIcon";
 import { SignInService } from "../../../services/signIn.service.ts";
+import { ReactComponent as Logo } from "../../../assets/logo.svg";
 
 const encryptPassword = async (password) => {
   try {
@@ -98,7 +99,7 @@ const Login = () => {
                 </p>
               </div>
               <div className="w-100 h-100">
-                <img src="logo.svg" alt="TSP Logo" className="w-32 h-32" />
+                <Logo className="w-32 h-32" />
               </div>
             </div>
             <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">

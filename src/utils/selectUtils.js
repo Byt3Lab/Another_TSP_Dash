@@ -1,6 +1,24 @@
 export const selectAll = (list, basekey = "id", credkey = "creds_id") =>
   list.map((item) => [item[basekey], item[credkey]]);
 
+export const selectAllApplications = (
+  list,
+  basekey = "id",
+  userBaseID = "userBaseData.id"
+) => list.map((item) => [item[basekey], item[userBaseID]]);
+
+export const selectAllDrivers = (list) => {
+  let finalList = [];
+  for (let x = 0; x < list.length; x++) {
+    if (list[x].userBaseData !== null && list[x].userBaseData !== undefined) {
+      finalList.push([list[x].id, list[x].userBaseData.id]);
+    } else {
+      finalList.push([list[x].id, null]);
+    }
+  }
+  return finalList;
+};
+
 function indexOf2d(array2d, item) {
   return [].concat.apply([], [].concat.apply([], array2d)).indexOf(item);
 }
