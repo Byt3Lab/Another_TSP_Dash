@@ -11,7 +11,7 @@ import { NavBar } from "../components/NavBar";
 import { SideMenu } from "../components/SideMenu";
 import { RouteGuardian } from "./RouteGuardian";
 import { Overlay } from "../components/LoadingOverlay";
-import UserManagementView from "../views/users/UserManagement/ManageUsers";
+import UserManagementView from "../views/users/Users/Users";
 import FleetView from "../views/users/Fleet/Fleet";
 
 const WithMenu = (props) => {
