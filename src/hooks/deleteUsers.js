@@ -1,16 +1,7 @@
-import { collection, doc, deleteDoc } from "firebase/firestore";
+import { doc, deleteDoc } from "firebase/firestore";
 import { db } from "../configs/firebase";
 
 export const deleteUsers = async (userIds) => {
-  const usersBaseDataRef = collection(
-    db,
-    `${process.env.REACT_APP_USERS_BASE_COLLECTION_NAME}`
-  );
-  const usersCredsDataRef = collection(
-    db,
-    `${process.env.REACT_APP_USERS_CREDS_COLLECTION_NAME}`
-  );
-
   try {
     for (let x = 0; x < userIds.length; x++) {
       const userBaseRef = doc(

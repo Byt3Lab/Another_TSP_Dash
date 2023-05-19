@@ -10,10 +10,6 @@ import {
 import { db } from "../configs/firebase";
 
 export const fetchDriversApplications = async () => {
-  const usersBaseDataRef = collection(
-    db,
-    `${process.env.REACT_APP_USERS_BASE_COLLECTION_NAME}`
-  );
   const usersCredsDataRef = collection(
     db,
     `${process.env.REACT_APP_USERS_CREDS_COLLECTION_NAME}`
