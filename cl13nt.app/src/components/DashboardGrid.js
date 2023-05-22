@@ -43,8 +43,12 @@ const DashboardGrid = (props) => {
         })
     }
     // get all the users .collection("users_accnt").orderBy("current month")
+    /**
+     *  .where('myDate', isGreaterThanOrEqualTo: new DateTime(date.year, date.month, 1))
+        .orderBy('myDate', descending: true)
+     */
     const fetchMonthUsers = async () => {
-      await getDocs(query(collection(firestore, "users_accnt"), where("created_at", "<" ,date)))
+      await getDocs(query(collection(firestore, "users_accnt"), where("created_at", ">=",new DateTime(date.year, date.month, 1)), orderBy("created_at", "asc")))
         .then((querySnapshot) => {
           const newUsers = querySnapshot.docs
             .map((doc) => ({...doc.data(), id:doc.id}))
