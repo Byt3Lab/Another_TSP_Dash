@@ -19,12 +19,12 @@ const UserManagement = (props) => {
   const [selected, setSelected] = useState([]);
   const [usersToDelete, setUsersToDelete] = useState([]);
   const [userUpdated, setUserUpdated] = useState(undefined);
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState();
   const [isOperating, setIsOperating] = useState(props.isLoaded);
 
   useEffect(() => {
     props.setIsLoaded(false);
-    setUsers([]);
+    setUsers();
     handleGetUsers();
   }, []);
 
@@ -40,7 +40,7 @@ const UserManagement = (props) => {
 
   const handleGetUsers = async () => {
     fetchUsers().then((res) => {
-      setUsers((prevState) => [...prevState, ...res]);
+      setUsers(res);
       props.setIsLoaded(true);
       setIsOperating(false);
     });
@@ -54,7 +54,7 @@ const UserManagement = (props) => {
           snackbar.success("L'utilisateur a bien ete ajoute");
           setOpenUserDialog(false);
           setIsOperating(false);
-          setUsers([]);
+          setUsers();
           handleGetUsers();
         } else {
           snackbar.error("Une erreur est survenue a l'ajout");
@@ -78,7 +78,7 @@ const UserManagement = (props) => {
           setOpenConfirmDeleteDialog(false);
           setIsOperating(false);
           setUsersToDelete([]);
-          setUsers([]);
+          setUsers();
           handleGetUsers();
         } else {
           snackbar.error("Une erreur est survenue a la suppression");

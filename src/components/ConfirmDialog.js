@@ -1,5 +1,4 @@
-import { ReactComponent as ConfirmSvg } from "../assets/confirm.svg";
-import { SvgContainer } from "./SvgContainer";
+import { ReactComponent as ConfirmAction } from "../assets/confirm_action.svg";
 import {
   Button,
   Dialog,
@@ -7,6 +6,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Box,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 
@@ -26,9 +26,14 @@ const ConfirmDialog = ({
       aria-describedby="confirm-dialog-description"
     >
       <DialogContent sx={{ textAlign: "center" }}>
-        <SvgContainer>
-          <ConfirmSvg style={{ maxWidth: 280, width: "100%" }} />
-        </SvgContainer>
+        <Box
+          marginBottom={5}
+          display={"inline-flex"}
+          alignItems={"center"}
+          justifyContent={"center"}
+        >
+          <ConfirmAction width={"50%"} />
+        </Box>
         <DialogTitle id="confirm-dialog-title" sx={{ pb: 1, pt: 0 }}>
           {title}
         </DialogTitle>

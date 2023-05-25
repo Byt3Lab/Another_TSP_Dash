@@ -1,6 +1,9 @@
 export const selectAll = (list, basekey = "id", credkey = "creds_id") =>
   list.map((item) => [item[basekey], item[credkey]]);
 
+export const selectAllPoolings = (list, basekey = "id") =>
+  list.map((item) => [item[basekey]]);
+
 export const selectAllApplications = (
   list,
   basekey = "id",

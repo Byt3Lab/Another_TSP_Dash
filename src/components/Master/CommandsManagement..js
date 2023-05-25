@@ -8,72 +8,79 @@ import DriverDialog from "../DriverDialog";
 import { fetchDrivers } from "../../hooks/getDrivers";
 import { deleteDrivers } from "../../hooks/deleteDrivers";
 import AddIcon from "@mui/icons-material/Add";
-import GarageIcon from "@mui/icons-material/Garage";
-import MinorCrashIcon from "@mui/icons-material/MinorCrash";
-import DriverRequestsTable from "../DriverRequestsTable";
 import DriversTable from "../DriversTable";
-import { fetchDriversApplications } from "../../hooks/getDriversApplications";
-import ConfirmValidateDriverDialog from "../ConfirmValidateDriverDialog";
-import { updateDriverRequest } from "../../hooks/updateDriverRequest";
-import { deleteDriversApplications } from "../../hooks/deleteDriversApplication";
 import { addDriver } from "../../hooks/addDriver";
-import DriverRequestDialog from "../DriverRequestDialog";
+import HailIcon from "@mui/icons-material/Hail";
+import CardMembershipIcon from "@mui/icons-material/CardMembership";
+import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
+import PoolingRequestsTable from "../PoolingRequestsTable";
+import { fetchPoolingRequests } from "../../hooks/getPoolingRequests";
+import UpdateRequestStatusDialog from "../UpdateRequestStatusDialog";
+import { updateBookingRequestStatus } from "../../hooks/updateBookingRequestStatus";
+import PoolingRequestDialog from "../PoolingRequestDialog";
+import { deletePoolingRequests } from "../../hooks/deletePoolingRequests";
 
-const FleetManagement = (props) => {
+const CommandsManagement = (props) => {
   const snackbar = useSnackbar();
 
   const [
-    openConfirmApplicationDeleteDialog,
-    setOpenConfirmApplicationDeleteDialog,
+    openConfirmPoolingRequestDeleteDialog,
+    setOpenConfirmPoolingRequestDeleteDialog,
   ] = useState(false);
-  const [
-    openConfirmApplicationValidateDialog,
-    setOpenConfirmApplicationValidateDialog,
-  ] = useState(false);
+  const [openRequestStatusUpdateDialog, setOpenRequestStatusUpdateDialog] =
+    useState(false);
   const [openConfirmDriverDeleteDialog, setOpenConfirmDriverDeleteDialog] =
     useState(false);
-  const [openApplicationDialog, setOpenApplicationDialog] = useState(false);
+  const [openPoolingRequestDialog, setOpenPoolingRequestDialog] =
+    useState(false);
   const [openDriverDialog, setOpenDriverDialog] = useState(false);
-  const [applicationsSelected, setApplicationsSelected] = useState([]);
+  const [poolingsSelected, setPoolingsSelected] = useState([]);
   const [selectedDrivers, setSelectedDrivers] = useState([]);
-  const [applicationsToDelete, setApplicationsToDelete] = useState([]);
-  const [applicationsToValidate, setApplicationsToValidate] = useState([]);
+  const [poolingRequestsToDelete, setPoolingRequestsToDelete] = useState([]);
+  const [requestsToUpdate, setRequestsToUpdate] = useState([]);
   const [driversToDelete, setDriversToDelete] = useState([]);
-  const [applicationUpdated, setApplicationUpdated] = useState(undefined);
+  const [poolingUpdated, setPoolingUpdated] = useState(undefined);
   const [driverUpdated, setDriverUpdated] = useState(undefined);
-  const [applications, setApplications] = useState();
-  const [drivers, setDrivers] = useState();
+  const [poolings, setPoolings] = useState();
+  const [drivers, setDrivers] = useState([]);
   const [isOperating, setIsOperating] = useState(props.isLoaded);
   const [initialTab, setInitialTab] = React.useState(0);
   const processing = !props.isLoaded || isOperating;
+  const [statusChoice, setStatusChoice] = useState(``);
 
   useEffect(() => {
     props.setIsLoaded(false);
-    setApplications();
-    setDrivers();
-    handleGetApplications();
+    setPoolings();
+    setDrivers([]);
+    handleGetPoolings();
     handleGetDrivers();
   }, []);
 
   useEffect(() => {
     //console.log("USERS TO DELETE IDS ", driversToDelete, driversToDelete.length);
-  }, [applicationsToDelete, driversToDelete, applicationsToValidate, drivers]);
+  }, [
+    poolingRequestsToDelete,
+    driversToDelete,
+    requestsToUpdate,
+    drivers,
+    poolings,
+  ]);
 
-  const setApplicationsToBeDeleted = (ids) => {
-    setApplicationsToDelete((prevState) => [...prevState, ...ids]);
+  const setPoolingRequestsToBeDeleted = (ids) => {
+    setPoolingRequestsToDelete((prevState) => [...prevState, ...ids]);
   };
 
-  const setApplicationsToBeValidated = (ids) => {
-    setApplicationsToValidate((prevState) => [...prevState, ...ids]);
+  const setRequestsToBeUpdated = (ids) => {
+    setRequestsToUpdate((prevState) => [...prevState, ...ids]);
   };
 
   const setDriversToBeDeleted = (ids) => {
     setDriversToDelete((prevState) => [...prevState, ...ids]);
   };
 
-  const handleGetApplications = async () => {
-    fetchDriversApplications().then((res) => {
-      setApplications(res);
+  const handleGetPoolings = async () => {
+    fetchPoolingRequests().then((res) => {
+      setPoolings(res);
       props.setIsLoaded(true);
       setIsOperating(false);
     });
@@ -81,7 +88,7 @@ const FleetManagement = (props) => {
 
   const handleGetDrivers = async () => {
     fetchDrivers().then((res) => {
-      setDrivers(res);
+      setDrivers((prevState) => [...prevState, ...res]);
       props.setIsLoaded(true);
       setIsOperating(false);
     });
@@ -95,10 +102,10 @@ const FleetManagement = (props) => {
           snackbar.success("Le chauffeur a bien ete ajouté.");
           setOpenDriverDialog(false);
           setIsOperating(false);
-          setDrivers();
+          setDrivers([]);
           handleGetDrivers();
-          setApplications();
-          handleGetApplications();
+          setPoolings();
+          handleGetPoolings();
         } else {
           snackbar.error("Une erreur est survenue a l'ajout");
           setIsOperating(false);
@@ -110,24 +117,26 @@ const FleetManagement = (props) => {
       });
   };
 
-  const handleDeleteApplications = async () => {
+  const handleDeletePoolingRequests = async () => {
     setIsOperating(true);
     console.log(
-      "APPLICATIONS TO DELETE PASSED ",
-      applicationsToDelete,
-      applicationsToDelete.length
+      "POOLING REQUESTS TO DELETE PASSED ",
+      poolingRequestsToDelete,
+      poolingRequestsToDelete.length
     );
-    deleteDriversApplications(applicationsToDelete)
+    deletePoolingRequests(poolingRequestsToDelete)
       .then((result) => {
         if (result === true) {
-          snackbar.success("La requête a bien ete supprimée.");
-          setApplicationsSelected([]);
-          setOpenConfirmApplicationDeleteDialog(false);
+          snackbar.success(
+            "La / Les requête(s) de co-voiturage a / ont bien ete supprimée(s)."
+          );
+          setPoolingsSelected([]);
+          setOpenConfirmPoolingRequestDeleteDialog(false);
           setIsOperating(false);
-          setApplicationsToDelete([]);
-          setApplications();
-          handleGetApplications();
-          setDrivers();
+          setPoolingRequestsToDelete([]);
+          setPoolings();
+          handleGetPoolings();
+          setDrivers([]);
           handleGetDrivers();
         } else {
           snackbar.error("Une erreur est survenue lors de la suppression");
@@ -140,24 +149,27 @@ const FleetManagement = (props) => {
       });
   };
 
-  const handleValidateApplication = async () => {
+  const handleUpdatePooling = async () => {
     setIsOperating(true);
     console.log(
-      "APPLICATIONS TO VALIDATE PASSED ",
-      applicationsToValidate,
-      applicationsToValidate.length
+      "REQUESTS TO UPDATE PASSED ",
+      requestsToUpdate,
+      requestsToUpdate.length,
+      "WITH STATUS ",
+      statusChoice
     );
-    updateDriverRequest(applicationsToValidate)
+    updateBookingRequestStatus(requestsToUpdate, statusChoice)
       .then((result) => {
         if (result === true) {
-          snackbar.success("La requête a bien ete validée.");
-          setApplicationsSelected([]);
-          setOpenConfirmApplicationValidateDialog(false);
+          snackbar.success("Requête(s) mise(s) à jour.");
+          setPoolingsSelected([]);
+          setOpenRequestStatusUpdateDialog(false);
+          setRequestsToUpdate([]);
           setIsOperating(false);
-          setApplicationsToDelete([]);
-          setApplications();
-          handleGetApplications();
-          setDrivers();
+          setPoolingRequestsToDelete([]);
+          setPoolings();
+          handleGetPoolings();
+          setDrivers([]);
           handleGetDrivers();
         } else {
           snackbar.error("Une erreur est survenue lors de la validation");
@@ -185,10 +197,10 @@ const FleetManagement = (props) => {
           setOpenConfirmDriverDeleteDialog(false);
           setIsOperating(false);
           setDriversToDelete([]);
-          setDrivers();
+          setDrivers([]);
           handleGetDrivers();
-          setApplications();
-          handleGetApplications();
+          setPoolings();
+          handleGetPoolings();
         } else {
           snackbar.error("Une erreur est survenue lors de la suppression...");
           setIsOperating(false);
@@ -200,27 +212,27 @@ const FleetManagement = (props) => {
       });
   };
 
-  const handleViewApplication = async (application) => {};
+  const handleViewPoolingRequest = async (application) => {};
 
   const handleViewDriver = async (driver) => {};
 
-  const handleCancelSelectedApplications = () => {
-    setApplicationsSelected([]);
+  const handleCancelSelectedPoolingRequests = () => {
+    setPoolingsSelected([]);
   };
 
   const handleCancelSelectedDriver = () => {
     setSelectedDrivers([]);
   };
 
-  const handleCloseConfirmApplicationDeleteDialog = () => {
-    setOpenConfirmApplicationDeleteDialog(false);
-    setApplicationsSelected([]);
-    setApplicationsToDelete([]);
+  const handleCloseConfirmPoolingRequestDeleteDialog = () => {
+    setOpenConfirmPoolingRequestDeleteDialog(false);
+    setPoolingsSelected([]);
+    setPoolingRequestsToDelete([]);
   };
 
-  const handleCloseConfirmApplicationValidateDialog = () => {
-    setOpenConfirmApplicationValidateDialog(false);
-    setApplicationsToValidate([]);
+  const handleCloseRequestUpdateDialog = () => {
+    setOpenRequestStatusUpdateDialog(false);
+    setRequestsToUpdate([]);
   };
 
   const handleCloseConfirmDriverDeleteDialog = () => {
@@ -229,9 +241,9 @@ const FleetManagement = (props) => {
     setDriversToDelete([]);
   };
 
-  const handleCloseApplicationDialog = () => {
-    setApplicationUpdated(undefined);
-    setOpenApplicationDialog(false);
+  const handleClosePoolingRequestDialog = () => {
+    setPoolingUpdated(undefined);
+    setOpenPoolingRequestDialog(false);
   };
 
   const handleCloseDriverDialog = () => {
@@ -239,14 +251,15 @@ const FleetManagement = (props) => {
     setOpenDriverDialog(false);
   };
 
-  const handleOpenConfirmApplicationDeleteDialog = (applicationIds) => {
-    setApplicationsToBeDeleted(applicationIds);
-    setOpenConfirmApplicationDeleteDialog(true);
+  const handleOpenConfirmPoolingRequestDeleteDialog = (applicationIds) => {
+    setPoolingRequestsToBeDeleted(applicationIds);
+    setOpenConfirmPoolingRequestDeleteDialog(true);
   };
 
-  const handleOpenConfirmApplicationValidateDialog = (applicationIds) => {
-    setApplicationsToBeValidated(applicationIds);
-    setOpenConfirmApplicationValidateDialog(true);
+  const handleOpenRequestStatusDialog = (requestsIds, status) => {
+    setRequestsToBeUpdated(requestsIds);
+    setStatusChoice(status);
+    setOpenRequestStatusUpdateDialog(true);
   };
 
   const handleOpenConfirmDriverDeleteDialog = (driverIds) => {
@@ -255,9 +268,9 @@ const FleetManagement = (props) => {
     setOpenConfirmDriverDeleteDialog(true);
   };
 
-  const handleOpenApplicationDialog = (application) => {
-    setApplicationUpdated(application);
-    setOpenApplicationDialog(true);
+  const handleOpenPoolingRequestDialog = (application) => {
+    setPoolingUpdated(application);
+    setOpenPoolingRequestDialog(true);
   };
 
   const handleOpenDriverDialog = (driver) => {
@@ -265,8 +278,8 @@ const FleetManagement = (props) => {
     setOpenDriverDialog(true);
   };
 
-  const handleSelectedApplicationsChange = (newSelected) => {
-    setApplicationsSelected(newSelected);
+  const handleSelectedPoolingsChange = (newSelected) => {
+    setPoolingsSelected(newSelected);
   };
 
   const handleSelectedDriversChange = (newSelected) => {
@@ -290,34 +303,45 @@ const FleetManagement = (props) => {
             centered
             sx={{
               padding: "10px 20px",
-              width: "50%",
+              width: "70%",
             }}
           >
             <Tab
-              icon={<MinorCrashIcon />}
+              icon={<HailIcon />}
               iconPosition="start"
-              label="Nouvelles requêtes"
+              label="Requêtes de taxi"
               wrapped={false}
               sx={{
                 marginRight: "5%",
               }}
             />
             <Tab
-              icon={<GarageIcon />}
+              icon={<CardMembershipIcon />}
               iconPosition="start"
-              label="Chauffeurs TS+"
+              label="Abonnements TS+"
+              wrapped={false}
+              sx={{
+                marginRight: "5%",
+              }}
+            />
+            <Tab
+              icon={<LocalGasStationIcon />}
+              iconPosition="start"
+              label="Abonnements Carburant"
+              wrapped={false}
             />
           </Tabs>
         </div>
         {initialTab === 0 ? (
-          !applicationsSelected.length ? (
-            <AdminToolbar title={"Requêtes en attente"}></AdminToolbar>
+          !poolingsSelected.length ? (
+            <AdminToolbar title={"Requêtes de covoiturage"}></AdminToolbar>
           ) : (
             <SelectToolbar
               processing={processing}
-              onCancel={handleCancelSelectedApplications}
-              onDelete={handleOpenConfirmApplicationDeleteDialog}
-              selected={applicationsSelected}
+              onCancel={handleCancelSelectedPoolingRequests}
+              onDelete={handleOpenConfirmPoolingRequestDeleteDialog}
+              selected={poolingsSelected}
+              onUpdateRequestsStatus={handleOpenRequestStatusDialog}
             />
           )
         ) : !selectedDrivers.length ? (
@@ -345,14 +369,14 @@ const FleetManagement = (props) => {
         )}
 
         {initialTab === 0 ? (
-          <DriverRequestsTable
+          <PoolingRequestsTable
             processing={processing}
-            onDelete={handleOpenConfirmApplicationDeleteDialog}
-            onValidate={handleOpenConfirmApplicationValidateDialog}
-            onView={handleOpenApplicationDialog}
-            onSelectedChange={handleSelectedApplicationsChange}
-            selected={applicationsSelected}
-            applications={applications}
+            onDelete={handleOpenConfirmPoolingRequestDeleteDialog}
+            onStatusChange={handleOpenRequestStatusDialog}
+            onView={handleOpenPoolingRequestDialog}
+            onSelectedChange={handleSelectedPoolingsChange}
+            selected={poolingsSelected}
+            requests={poolings}
           />
         ) : (
           <DriversTable
@@ -369,20 +393,22 @@ const FleetManagement = (props) => {
             <ConfirmDialog
               description={"Cette action sera irreversible !"}
               pending={processing}
-              onClose={handleCloseConfirmApplicationDeleteDialog}
-              onConfirm={handleDeleteApplications}
-              open={openConfirmApplicationDeleteDialog}
-              title={"Supprimer la requête ?"}
+              onClose={handleCloseConfirmPoolingRequestDeleteDialog}
+              onConfirm={handleDeletePoolingRequests}
+              open={openConfirmPoolingRequestDeleteDialog}
+              title={"Supprimer la / les requête(s) ?"}
             />
-            <ConfirmValidateDriverDialog
-              description={
-                "Cet utilisateur aura désormais un status de chauffeur."
-              }
+            <UpdateRequestStatusDialog
               pending={processing}
-              onClose={handleCloseConfirmApplicationValidateDialog}
-              onConfirm={handleValidateApplication}
-              open={openConfirmApplicationValidateDialog}
-              title={"Voulez vous vraiment valider cette requête ?"}
+              onClose={handleCloseRequestUpdateDialog}
+              onConfirm={handleUpdatePooling}
+              open={openRequestStatusUpdateDialog}
+              title={"Quel sera le nouveau status ?"}
+              description={
+                "Le status sera appliqué à toutes les requêtes sélectionnées."
+              }
+              statusChoice={statusChoice}
+              setStatusChoice={setStatusChoice}
             />
           </>
         ) : (
@@ -396,14 +422,14 @@ const FleetManagement = (props) => {
           />
         )}
         {initialTab === 0
-          ? openApplicationDialog && (
-              <DriverRequestDialog
+          ? openPoolingRequestDialog && (
+              <PoolingRequestDialog
                 index={initialTab}
-                onClose={handleCloseApplicationDialog}
-                onView={handleViewApplication}
-                open={openApplicationDialog}
+                onClose={handleClosePoolingRequestDialog}
+                onView={handleViewPoolingRequest}
+                open={openPoolingRequestDialog}
                 processing={processing}
-                driver={applicationUpdated}
+                pooling={poolingUpdated}
               />
             )
           : openDriverDialog && (
@@ -422,4 +448,4 @@ const FleetManagement = (props) => {
   );
 };
 
-export default FleetManagement;
+export default CommandsManagement;
