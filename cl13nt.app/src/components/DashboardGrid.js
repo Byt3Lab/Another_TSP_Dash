@@ -33,7 +33,7 @@ const DashboardGrid = (props) => {
     }
     // get all the users .collection("users_accnt").orderBy("created_at", "asc")
     const fetchUsers = async () => {
-      await getDocs(query(collection(firestore, "users_accnt"), orderBy("created_at", "asc")))
+      await getDocs(query(collection(firestore, "users_accnt"), orderBy("created_at", "desc")))
         .then((querySnapshot) => {
           const newUsers = querySnapshot.docs
             .map((doc) => ({...doc.data(), id:doc.id}))
@@ -53,6 +53,7 @@ const DashboardGrid = (props) => {
           const newUsers = querySnapshot.docs
             .map((doc) => ({...doc.data(), id:doc.id}))
           setMonthUsers(newUsers)
+          console.log("date var : " + date)
           console.log("month users : ")
           console.log(monthUsers, newUsers)
         })
