@@ -18,7 +18,10 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig, {
+  experimentalForceLongPolling: true,
+  useFetchStreams: false,
+});
 //const analytics = getAnalytics(app);
 // get the database and store it in the firestore const
 export const firestore = getFirestore(app)

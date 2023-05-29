@@ -16,7 +16,7 @@ const DashboardGrid = (props) => {
   const [users, setUsers] = useState([])
   const [monthUsers, setMonthUsers] = useState([])
   const [books, setBooks] = useState([])
-  const date = new Date().toLocaleString()
+  const date = new Date().toString()
 
   useEffect(() => {
     props.setIsLoaded(false);
@@ -48,7 +48,7 @@ const DashboardGrid = (props) => {
         .orderBy('myDate', descending: true)
      */
     const fetchMonthUsers = async () => {
-      await getDocs(query(collection(firestore, "users_accnt"), where("created_at", ">=",new DateTime(date.year, date.month, 1)), orderBy("created_at", "asc")))
+      await getDocs(query(collection(firestore, "users_accnt"), where("created_at", ">=",date)), orderBy("created_at", "asc"))
         .then((querySnapshot) => {
           const newUsers = querySnapshot.docs
             .map((doc) => ({...doc.data(), id:doc.id}))
