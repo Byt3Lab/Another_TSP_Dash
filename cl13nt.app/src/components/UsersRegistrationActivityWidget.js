@@ -3,28 +3,9 @@ import { useTheme } from "@emotion/react";
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
 import { useState } from "react";
 
-/*const data = [
-  {
-    name: "Jan",
-    amount: 2,
-  },
-  {
-    name: "Feb",
-    amount: 10,
-  },
-  {
-    name: "Mar",
-    amount: 30,
-  },
-  {
-    name: "Avr",
-    amount: 0,
-  },
-];*/
-
 const UsersRegistrationActivityWidget = (props) => {
 
-  const totalNewUsers = "37";
+  const totalNewUsers = props.users.length;
   const theme = useTheme();
   const [data, setDatas] = useState([
     {
@@ -43,10 +24,44 @@ const UsersRegistrationActivityWidget = (props) => {
       name: "Avr",
       amount: 0,
     },
+    {
+      name: "May",
+      amount: 0,
+    },
+    {
+      name: "Jun",
+      amount: 0,
+    },
+    {
+      name: "July",
+      amount: 0,
+    },
+    {
+      name: "Aug",
+      amount: 0,
+    },
+    {
+      name: "Sep",
+      amount: 0,
+    },
+    {
+      name: "Oct",
+      amount: 0,
+    },
+    {
+      name: "Nov",
+      amount: 0,
+    },
+    {
+      name: "Dec",
+      amount: 0,
+    },
   ]);
-  //props.users
-  /*{props.users.map((meeting) => (
-  ))};*/
+  const d = props.users
+  const curr_date = new Date()
+  console.log("current date : " + curr_date.getMonth())
+  console.log(d[0].created_at)
+
   return (
     <Card>
       <CardContent>

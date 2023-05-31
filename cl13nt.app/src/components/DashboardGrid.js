@@ -53,9 +53,9 @@ const DashboardGrid = (props) => {
           const newUsers = querySnapshot.docs
             .map((doc) => ({...doc.data(), id:doc.id}))
           setMonthUsers(newUsers)
-          console.log("date var : " + date)
+          /*console.log("date var : " + date)
           console.log("month users : ")
-          console.log(monthUsers, newUsers)
+          console.log(monthUsers, newUsers)*/
         })
     }
     // get all the drivers
