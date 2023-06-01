@@ -33,7 +33,7 @@ const DashboardGrid = (props) => {
     }
     // get all the users .collection("users_accnt").orderBy("created_at", "asc")
     const fetchUsers = async () => {
-      await getDocs(query(collection(firestore, "users_accnt"), orderBy("created_at", "desc")))
+      await getDocs(query(collection(firestore, "users_accnt"), orderBy("created_at", "asc")))
         .then((querySnapshot) => {
           const newUsers = querySnapshot.docs
             .map((doc) => ({...doc.data(), id:doc.id}))
