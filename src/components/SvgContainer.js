@@ -6,13 +6,17 @@ const SvgContainer = ({ children }) => {
   return (
     <Box
       sx={{
-        svg: { height: "100%", width: "100%" },
+        svg: { height: "50%", width: "50%" },
         ".fill-primary": { fill: theme.palette.primary.light },
         ".fill-secondary": { fill: theme.palette.secondary.light },
         ".fill-error": { fill: theme.palette.error.light },
         ".fill-success": { fill: theme.palette.success.light },
         ".fill-warning": { fill: theme.palette.warning.light },
         ".fill-paper": { fill: theme.palette.background.paper },
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "green",
       }}
     >
       {children}

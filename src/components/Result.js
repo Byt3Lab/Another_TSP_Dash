@@ -20,7 +20,7 @@ const ResultImage = ({ customImage, status }) => {
 const Result = ({ extra, image, maxWidth = "xs", status, subTitle, title }) => {
   return (
     <Container maxWidth={maxWidth}>
-      <Box sx={{ textAlign: "center", px: 3, py: 8 }}>
+      <Box sx={{ textAlign: "center", px: 3, py: 2, backgroundColor: "red" }}>
         <SvgContainer>
           <ResultImage customImage={image} status={status} />
         </SvgContainer>

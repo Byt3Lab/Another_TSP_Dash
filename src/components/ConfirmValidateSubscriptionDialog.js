@@ -1,4 +1,3 @@
-import { ReactComponent as ConfirmAction } from "../assets/confirm_action.svg";
 import {
   Button,
   Dialog,
@@ -9,8 +8,9 @@ import {
   Box,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
+import { ReactComponent as ValidateAction } from "../assets/validate.svg";
 
-const ConfirmDialog = ({
+const ConfirmValidateSubscriptionDialog = ({
   description,
   onClose,
   onConfirm,
@@ -32,7 +32,7 @@ const ConfirmDialog = ({
           alignItems={"center"}
           justifyContent={"center"}
         >
-          <ConfirmAction width={"50%"} />
+          <ValidateAction width={"50%"} />
         </Box>
         <DialogTitle id="confirm-dialog-title" sx={{ pb: 1, pt: 0 }}>
           {title}
@@ -51,11 +51,11 @@ const ConfirmDialog = ({
           loading={pending}
           variant="contained"
         >
-          {"Confirmer"}
+          {"Oui"}
         </LoadingButton>
       </DialogActions>
     </Dialog>
   );
 };
 
-export default ConfirmDialog;
+export default ConfirmValidateSubscriptionDialog;

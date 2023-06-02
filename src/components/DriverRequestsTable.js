@@ -23,6 +23,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import LoadingTableView from "./LoadingView";
 
 const headCells = [
   {
@@ -311,7 +312,7 @@ const DriverRequestsTable = ({
   onSelectedChange,
   processing,
   selected,
-  applications = [],
+  applications,
 }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -349,11 +350,7 @@ const DriverRequestsTable = ({
 
   const isSelected = (id) => isInArr(selected, id);
 
-  if (applications.length === 0) {
-    return <Empty title="Pas de nouvelle requête jusque là..." />;
-  }
-
-  return (
+  return applications && applications.length > 0 ? (
     <React.Fragment>
       <TableContainer>
         <Table
@@ -399,6 +396,13 @@ const DriverRequestsTable = ({
         labelRowsPerPage={"Entrées par pages"}
       />
     </React.Fragment>
+  ) : applications && applications.length === 0 ? (
+    <Empty title="Pas de nouvelle requête à afficher" />
+  ) : (
+    <LoadingTableView
+      message="Chargement des candidatures..."
+      title="Patientez svp"
+    />
   );
 };
 

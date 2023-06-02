@@ -12,7 +12,7 @@ import GarageIcon from "@mui/icons-material/Garage";
 import MinorCrashIcon from "@mui/icons-material/MinorCrash";
 import DriverRequestsTable from "../DriverRequestsTable";
 import DriversTable from "../DriversTable";
-import { fetchDriversApplications } from "../../hooks/getDriversRequests";
+import { fetchDriversApplications } from "../../hooks/getDriversApplications";
 import ConfirmValidateDriverDialog from "../ConfirmValidateDriverDialog";
 import { updateDriverRequest } from "../../hooks/updateDriverRequest";
 import { deleteDriversApplications } from "../../hooks/deleteDriversApplication";
@@ -41,16 +41,16 @@ const FleetManagement = (props) => {
   const [driversToDelete, setDriversToDelete] = useState([]);
   const [applicationUpdated, setApplicationUpdated] = useState(undefined);
   const [driverUpdated, setDriverUpdated] = useState(undefined);
-  const [applications, setApplications] = useState([]);
-  const [drivers, setDrivers] = useState([]);
+  const [applications, setApplications] = useState();
+  const [drivers, setDrivers] = useState();
   const [isOperating, setIsOperating] = useState(props.isLoaded);
   const [initialTab, setInitialTab] = React.useState(0);
   const processing = !props.isLoaded || isOperating;
 
   useEffect(() => {
     props.setIsLoaded(false);
-    setApplications([]);
-    setDrivers([]);
+    setApplications();
+    setDrivers();
     handleGetApplications();
     handleGetDrivers();
   }, []);
@@ -73,7 +73,7 @@ const FleetManagement = (props) => {
 
   const handleGetApplications = async () => {
     fetchDriversApplications().then((res) => {
-      setApplications((prevState) => [...prevState, ...res]);
+      setApplications(res);
       props.setIsLoaded(true);
       setIsOperating(false);
     });
@@ -81,7 +81,7 @@ const FleetManagement = (props) => {
 
   const handleGetDrivers = async () => {
     fetchDrivers().then((res) => {
-      setDrivers((prevState) => [...prevState, ...res]);
+      setDrivers(res);
       props.setIsLoaded(true);
       setIsOperating(false);
     });
@@ -95,9 +95,9 @@ const FleetManagement = (props) => {
           snackbar.success("Le chauffeur a bien ete ajouté.");
           setOpenDriverDialog(false);
           setIsOperating(false);
-          setDrivers([]);
+          setDrivers();
           handleGetDrivers();
-          setApplications([]);
+          setApplications();
           handleGetApplications();
         } else {
           snackbar.error("Une erreur est survenue a l'ajout");
@@ -125,9 +125,9 @@ const FleetManagement = (props) => {
           setOpenConfirmApplicationDeleteDialog(false);
           setIsOperating(false);
           setApplicationsToDelete([]);
-          setApplications([]);
+          setApplications();
           handleGetApplications();
-          setDrivers([]);
+          setDrivers();
           handleGetDrivers();
         } else {
           snackbar.error("Une erreur est survenue lors de la suppression");
@@ -155,9 +155,9 @@ const FleetManagement = (props) => {
           setOpenConfirmApplicationValidateDialog(false);
           setIsOperating(false);
           setApplicationsToDelete([]);
-          setApplications([]);
+          setApplications();
           handleGetApplications();
-          setDrivers([]);
+          setDrivers();
           handleGetDrivers();
         } else {
           snackbar.error("Une erreur est survenue lors de la validation");
@@ -185,9 +185,9 @@ const FleetManagement = (props) => {
           setOpenConfirmDriverDeleteDialog(false);
           setIsOperating(false);
           setDriversToDelete([]);
-          setDrivers([]);
+          setDrivers();
           handleGetDrivers();
-          setApplications([]);
+          setApplications();
           handleGetApplications();
         } else {
           snackbar.error("Une erreur est survenue lors de la suppression...");

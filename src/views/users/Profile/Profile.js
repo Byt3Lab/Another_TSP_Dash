@@ -1,6 +1,4 @@
-import React from "react";
 import { Helmet } from "react-helmet";
-import { ProfileMenu } from "../../../components/ProfileMenu/ProfileMenu";
 import { ProfileSumCard } from "../../../components/ProfileSumCard/ProfileSumCard";
 import { Footer } from "../../../components/Footer";
 import { Overlay } from "../../../components/LoadingOverlay";
@@ -10,7 +8,7 @@ const Profile = () => {
     <div className="w-full bg-slate-200 pb-40">
       {<Overlay />}
       <Helmet>
-        <title>Profile | Menzen</title>
+        <title>Profile | TS+ Dashboard</title>
       </Helmet>
       <div className="w-full py-5">
         <main className="my-14">

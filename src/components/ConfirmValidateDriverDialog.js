@@ -5,8 +5,10 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Box,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
+import { ReactComponent as ValidateAction } from "../assets/validate.svg";
 
 const ConfirmValidateDriverDialog = ({
   description,
@@ -24,6 +26,14 @@ const ConfirmValidateDriverDialog = ({
       aria-describedby="confirm-dialog-description"
     >
       <DialogContent sx={{ textAlign: "center" }}>
+        <Box
+          marginBottom={5}
+          display={"inline-flex"}
+          alignItems={"center"}
+          justifyContent={"center"}
+        >
+          <ValidateAction width={"50%"} />
+        </Box>
         <DialogTitle id="confirm-dialog-title" sx={{ pb: 1, pt: 0 }}>
           {title}
         </DialogTitle>

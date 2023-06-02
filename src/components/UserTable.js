@@ -23,6 +23,7 @@ import {
   Typography,
 } from "@mui/material";
 import { randomColor } from "../utils/randColorCode";
+import LoadingTableView from "./LoadingView";
 
 const headCells = [
   {
@@ -302,7 +303,7 @@ const UserTable = ({
   onSelectedChange,
   processing,
   selected,
-  users = [],
+  users,
 }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -340,11 +341,7 @@ const UserTable = ({
 
   const isSelected = (id) => isInArr(selected, id);
 
-  if (users.length === 0) {
-    return <Empty title="Pas encore d'utilisateur." />;
-  }
-
-  return (
+  return users && users.length > 0 ? (
     <React.Fragment>
       <TableContainer>
         <Table
@@ -389,6 +386,13 @@ const UserTable = ({
         labelRowsPerPage={"Entrées par pages"}
       />
     </React.Fragment>
+  ) : users && users.length === 0 ? (
+    <Empty title="Pas encore d'utilisateur." />
+  ) : (
+    <LoadingTableView
+      message="Chargement des utilisateurs..."
+      title="Patientez svp"
+    />
   );
 };
 

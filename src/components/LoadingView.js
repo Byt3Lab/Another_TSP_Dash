@@ -1,17 +1,17 @@
-import { ReactComponent as EmptySvg } from "../assets/empty_box.svg";
-import { Box, Typography, Container } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
+import loadingGif from "../assets/imgs/loading.gif";
 
-const Empty = ({ message, title, extra }) => {
+const LoadingTableView = ({ message, title }) => {
   return (
     <Container maxWidth={"xs"}>
       <Box sx={{ textAlign: "center", px: 3, py: 8 }}>
         <Box
-          marginBottom={5}
+          marginBottom={1}
           display={"inline-flex"}
           alignItems={"center"}
           justifyContent={"center"}
         >
-          <EmptySvg width={"50%"} />
+          <img src={loadingGif} alt="Loading..." />
         </Box>
         <Typography gutterBottom variant="h5">
           {title}
@@ -22,4 +22,4 @@ const Empty = ({ message, title, extra }) => {
   );
 };
 
-export default Empty;
+export default LoadingTableView;

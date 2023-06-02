@@ -23,37 +23,46 @@ import {
   Typography,
 } from "@mui/material";
 import LoadingTableView from "./LoadingView";
+import { randomColor } from "../utils/randColorCode";
+import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import { useNavigate } from "react-router-dom";
 
 const headCells = [
   {
-    id: "applicantName",
+    id: "subscriberName",
     align: "left",
-    label: "Nom du chauffeur (prétendu)",
+    label: "Nom de l'abonné",
   },
   {
-    id: "vehicle",
+    id: "quantity",
     align: "center",
-    label: "Véhicule",
+    label: "Quantité",
   },
   {
-    id: "applicantType",
+    id: "fuelType",
     align: "center",
-    label: "Type de chauffeur",
+    label: "Type de carburant",
   },
   {
-    id: "dailyCost",
+    id: "provider",
     align: "center",
-    label: "Commission journalière",
+    label: "Fournisseur",
   },
   {
-    id: "workingHours",
+    id: "cost",
     align: "center",
-    label: "Cadrant de travail",
+    label: "Coût",
   },
   {
-    id: "validatedAt",
+    id: "duration",
     align: "center",
-    label: "Date de validation",
+    label: "Durée",
+  },
+  {
+    id: "createdAt",
+    align: "center",
+    label: "Date de création",
   },
 ];
 
@@ -68,7 +77,7 @@ function EnhancedTableHead({ onSelectAllClick, numSelected, rowCount }) {
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{
-              "aria-label": "Select all drivers",
+              "aria-label": "Select all fuel subscriptions",
             }}
           />
         </TableCell>
@@ -85,85 +94,87 @@ function EnhancedTableHead({ onSelectAllClick, numSelected, rowCount }) {
   );
 }
 
-const UserRow = ({
+const FuelingRow = ({
   index,
   onCheck,
   onDelete,
   onView,
+  onExport,
   processing,
   selected,
-  driver,
+  fueling,
 }) => {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const updated_at = () => {
+  const created_at = () => {
     if (
       new Date(
-        driver.updated_at.seconds * 1000 +
-          driver.updated_at.nanoseconds / 1000000
+        fueling.created_at.seconds * 1000 +
+          fueling.created_at.nanoseconds / 1000000
       ).getDay() === new Date().getDay() &&
       new Date(
-        driver.updated_at.seconds * 1000 +
-          driver.updated_at.nanoseconds / 1000000
+        fueling.created_at.seconds * 1000 +
+          fueling.created_at.nanoseconds / 1000000
       ).getMonth() === new Date().getMonth() &&
       new Date(
-        driver.updated_at.seconds * 1000 +
-          driver.updated_at.nanoseconds / 1000000
+        fueling.created_at.seconds * 1000 +
+          fueling.created_at.nanoseconds / 1000000
       ).getFullYear() === new Date().getFullYear()
     ) {
       return "Aujourd'hui";
     } else if (
       new Date(
-        driver.updated_at.seconds * 1000 +
-          driver.updated_at.nanoseconds / 1000000
+        fueling.created_at.seconds * 1000 +
+          fueling.created_at.nanoseconds / 1000000
       ).getDay() ===
         new Date().getDay() - 1 &&
       new Date(
-        driver.updated_at.seconds * 1000 +
-          driver.updated_at.nanoseconds / 1000000
+        fueling.created_at.seconds * 1000 +
+          fueling.created_at.nanoseconds / 1000000
       ).getMonth() === new Date().getMonth() &&
       new Date(
-        driver.updated_at.seconds * 1000 +
-          driver.updated_at.nanoseconds / 1000000
+        fueling.created_at.seconds * 1000 +
+          fueling.created_at.nanoseconds / 1000000
       ).getFullYear() === new Date().getFullYear()
     ) {
       return "Hier";
     } else if (
       new Date(
-        driver.updated_at.seconds * 1000 +
-          driver.updated_at.nanoseconds / 1000000
+        fueling.created_at.seconds * 1000 +
+          fueling.created_at.nanoseconds / 1000000
       ).getDay() ===
         new Date().getDay() - 2 &&
       new Date(
-        driver.updated_at.seconds * 1000 +
-          driver.updated_at.nanoseconds / 1000000
+        fueling.created_at.seconds * 1000 +
+          fueling.created_at.nanoseconds / 1000000
       ).getMonth() === new Date().getMonth() &&
       new Date(
-        driver.updated_at.seconds * 1000 +
-          driver.updated_at.nanoseconds / 1000000
+        fueling.created_at.seconds * 1000 +
+          fueling.created_at.nanoseconds / 1000000
       ).getFullYear() === new Date().getFullYear()
     ) {
       return "Avant-hier";
     } else if (
       new Date(
-        driver.updated_at.seconds * 1000 +
-          driver.updated_at.nanoseconds / 1000000
+        fueling.created_at.seconds * 1000 +
+          fueling.created_at.nanoseconds / 1000000
       ).getDay() ===
         new Date().getDay() - 3 &&
       new Date(
-        driver.updated_at.seconds * 1000 +
-          driver.updated_at.nanoseconds / 1000000
+        fueling.created_at.seconds * 1000 +
+          fueling.created_at.nanoseconds / 1000000
       ).getMonth() === new Date().getMonth() &&
       new Date(
-        driver.updated_at.seconds * 1000 +
-          driver.updated_at.nanoseconds / 1000000
+        fueling.created_at.seconds * 1000 +
+          fueling.created_at.nanoseconds / 1000000
       ).getFullYear() === new Date().getFullYear()
     ) {
       return "Il y a 3 jours";
     } else {
       return new Date(
-        driver.updated_at.seconds * 1000 +
-          driver.updated_at.nanoseconds / 1000000
+        fueling.created_at.seconds * 1000 +
+          fueling.created_at.nanoseconds / 1000000
       )
         .toLocaleString("fr-CM")
         .toString();
@@ -183,21 +194,32 @@ const UserRow = ({
 
   const handleDelete = () => {
     handleCloseActions();
-    onDelete([
-      [driver.id, driver.userBaseData != null ? driver.userBaseData.id : null],
-    ]);
+    onDelete([[fueling.id]]);
+  };
+
+  const handleExportData = () => {
+    handleCloseActions();
+    onExport(fueling);
   };
 
   const handleView = () => {
     handleCloseActions();
-    onView(driver);
+    onView(fueling);
+  };
+
+  const handleGoTo = () => {
+    handleCloseActions();
+    const win = window.open("https://mail.google.com", "_blank");
+    if (win != null) {
+      win.focus();
+    }
   };
 
   return (
     <TableRow
       aria-checked={selected}
       tabIndex={-1}
-      key={driver.id}
+      key={fueling.id}
       selected={selected}
       sx={{ "& td": { bgcolor: "background.paper", border: 0 } }}
     >
@@ -213,49 +235,78 @@ const UserRow = ({
           }}
           onClick={() =>
             onCheck(
-              driver.id,
-              driver.userBaseData != null ? driver.userBaseData.id : null
+              fueling.id,
+              fueling.userBaseData != null ? fueling.userBaseData.id : null
             )
           }
         />
       </TableCell>
       <TableCell>
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Avatar
-            alt="Supposely a profile picture"
-            sx={{ mr: 3, width: 56, height: 56 }}
-          />
+          {!fueling.userBaseData || fueling.userBaseData.profilePic === "" ? (
+            <Avatar
+              sx={{
+                mr: 3,
+                width: 56,
+                height: 56,
+                backgroundColor: randomColor(),
+                fontSize: 30,
+                fontWeight: "bold",
+                color: "white",
+              }}
+            >
+              {fueling.name != null && fueling.name !== ""
+                ? fueling.name.toString().charAt(0).toUpperCase()
+                : fueling.forename.toString().charAt(0).toUpperCase()}
+            </Avatar>
+          ) : (
+            <Avatar
+              alt="User picture"
+              src={fueling.userBaseData.profilePic}
+              sx={{ mr: 3, width: 56, height: 56 }}
+            />
+          )}
           <Box>
             <Typography component="div" variant="h6">
-              {`${driver.name} ${driver.forename}`}
+              {`${fueling.name} ${fueling.forename}`}
             </Typography>
             <Typography color="textSecondary" variant="body2">
-              {driver.mail}
+              {fueling.userBaseData && fueling.userBaseData.mail}
             </Typography>
             <Typography color="textSecondary" variant="body2">
-              {driver.phone}
+              {fueling.phone}
             </Typography>
           </Box>
         </Box>
       </TableCell>
       <TableCell align="center">
+        <Chip color="primary" label={`${fueling.quantity}L`} />
+      </TableCell>
+      <TableCell align="center">
+        <Chip color="primary" label={`${fueling.fuelType}`} />
+      </TableCell>
+      <TableCell align="center">
         <Typography component="div" variant="h6">
-          {`${driver.supplementBrand} ${driver.supplementModel}`}
+          {`${fueling.fuelProvider}`}
         </Typography>
       </TableCell>
       <TableCell align="center">
-        <Chip color="primary" label={driver.supplementDriverStatus} />
+        <Chip color="primary" label={`CDF ${fueling.paymentAmount}`} />
       </TableCell>
       <TableCell align="center">
-        <Chip color="primary" label={`CDF ${driver.supplementCommission}`} />
-      </TableCell>
-      <TableCell align="center">
-        <Chip color="primary" label={`${driver.supplementWorkTime}`} />
+        <Chip
+          color="primary"
+          label={
+            fueling.subDuration.toString().split("")[1] === "M"
+              ? `${fueling.subDuration.toString().split("")[0]} Mois`
+              : `${fueling.subDuration.toString().split("")[0]} An(s)`
+          }
+        />
       </TableCell>
       <TableCell align="center">
         <Box>
           <Typography color="textSecondary" variant="body2">
-            {updated_at()}
+            {created_at()}
           </Typography>
         </Box>
       </TableCell>
@@ -264,9 +315,9 @@ const UserRow = ({
         sx={{ borderTopRightRadius: "1rem", borderBottomRightRadius: "1rem" }}
       >
         <IconButton
-          id="driver-row-menu-button"
-          aria-label="driver actions"
-          aria-controls="driver-row-menu"
+          id="fueling-row-menu-button"
+          aria-label="fueling actions"
+          aria-controls="fueling-row-menu"
           aria-haspopup="true"
           aria-expanded={openActions ? "true" : "false"}
           disabled={processing}
@@ -275,9 +326,9 @@ const UserRow = ({
           <MoreVertIcon />
         </IconButton>
         <Menu
-          id="driver-row-menu"
+          id="fueling-row-menu"
           anchorEl={anchorEl}
-          aria-labelledby="driver-row-menu-button"
+          aria-labelledby="fueling-row-menu-button"
           open={openActions}
           onClose={handleCloseActions}
           anchorOrigin={{
@@ -289,6 +340,18 @@ const UserRow = ({
             horizontal: "right",
           }}
         >
+          <MenuItem onClick={handleGoTo}>
+            <ListItemIcon>
+              <ArrowOutwardIcon />
+            </ListItemIcon>{" "}
+            {"Transferer"}
+          </MenuItem>
+          <MenuItem onClick={handleExportData}>
+            <ListItemIcon>
+              <FileDownloadIcon />
+            </ListItemIcon>{" "}
+            {"Exporter"}
+          </MenuItem>
           <MenuItem onClick={handleView}>
             <ListItemIcon>
               <PersonSearchIcon />
@@ -307,20 +370,21 @@ const UserRow = ({
   );
 };
 
-const DriversTable = ({
+const FuelingsTable = ({
   onDelete,
   onView,
   onSelectedChange,
+  onExport,
   processing,
   selected,
-  drivers,
+  fuelings,
 }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelectedIds = selectUtils.selectAllDrivers(drivers);
+      const newSelectedIds = selectUtils.selectAllDrivers(fuelings);
       // console.log("ALL IDS SELECTED ", newSelectedIds);
       onSelectedChange(newSelectedIds);
       return;
@@ -351,7 +415,7 @@ const DriversTable = ({
 
   const isSelected = (id) => isInArr(selected, id);
 
-  return drivers && drivers.length > 0 ? (
+  return fuelings && fuelings.length > 0 ? (
     <React.Fragment>
       <TableContainer>
         <Table
@@ -365,21 +429,22 @@ const DriversTable = ({
           <EnhancedTableHead
             numSelected={selected.length}
             onSelectAllClick={handleSelectAllClick}
-            rowCount={drivers.length}
+            rowCount={fuelings.length}
           />
           <TableBody>
-            {drivers
+            {fuelings
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((driver, index) => (
-                <UserRow
+              .map((fueling, index) => (
+                <FuelingRow
                   index={index}
-                  key={driver.id}
+                  key={fueling.id}
                   onCheck={handleClick}
                   onDelete={onDelete}
                   onView={onView}
+                  onExport={onExport}
                   processing={processing}
-                  selected={isSelected(driver.id)}
-                  driver={driver}
+                  selected={isSelected(fueling.id)}
+                  fueling={fueling}
                 />
               ))}
           </TableBody>
@@ -388,7 +453,7 @@ const DriversTable = ({
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
-        count={drivers.length}
+        count={fuelings.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
@@ -396,14 +461,14 @@ const DriversTable = ({
         labelRowsPerPage={"Entrées par pages"}
       />
     </React.Fragment>
-  ) : drivers && drivers.length === 0 ? (
-    <Empty title="Pas encore de chauffeur apparemment..." />
+  ) : fuelings && fuelings.length === 0 ? (
+    <Empty title="Pas encore d'abonnements de carburant..." />
   ) : (
     <LoadingTableView
-      message="Chargement des chauffeurs..."
+      message="Chargement des abonnements de carburant..."
       title="Patientez svp"
     />
   );
 };
 
-export default DriversTable;
+export default FuelingsTable;
