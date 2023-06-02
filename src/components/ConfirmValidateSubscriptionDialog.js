@@ -10,7 +10,7 @@ import {
 import { LoadingButton } from "@mui/lab";
 import { ReactComponent as ValidateAction } from "../assets/validate.svg";
 
-const ConfirmValidateDriverDialog = ({
+const ConfirmValidateSubscriptionDialog = ({
   description,
   onClose,
   onConfirm,
@@ -58,4 +58,4 @@ const ConfirmValidateDriverDialog = ({
   );
 };
 
-export default ConfirmValidateDriverDialog;
+export default ConfirmValidateSubscriptionDialog;

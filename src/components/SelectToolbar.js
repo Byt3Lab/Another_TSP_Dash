@@ -2,6 +2,7 @@ import { Box, Fab, Toolbar, Tooltip } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 const SelectToolbar = ({
   onCancel,
@@ -9,6 +10,7 @@ const SelectToolbar = ({
   processing,
   selected,
   onUpdateRequestsStatus,
+  onUpdateSubscriptionsStatus,
 }) => {
   const numSelected = selected.length;
 
@@ -34,6 +36,19 @@ const SelectToolbar = ({
             sx={{ zIndex: 0, mr: 2 }}
           >
             <ChangeCircleIcon />
+          </Fab>
+        </Tooltip>
+      )}
+
+      {onUpdateSubscriptionsStatus && (
+        <Tooltip title={"Modifier plusieurs status de validité"}>
+          <Fab
+            color="secondary"
+            disabled={processing}
+            onClick={() => onUpdateSubscriptionsStatus(selected)}
+            sx={{ zIndex: 0, mr: 2 }}
+          >
+            <CheckCircleIcon />
           </Fab>
         </Tooltip>
       )}
