@@ -14,9 +14,8 @@ const DashboardGrid = (props) => {
 
   const [drivers, setDrivers] = useState([])
   const [users, setUsers] = useState([])
-  const [monthUsers, setMonthUsers] = useState([])
+  //const [monthUsers, setMonthUsers] = useState([])
   const [books, setBooks] = useState([])
-  const date = new Date().toString()
 
   useEffect(() => {
     props.setIsLoaded(false);
@@ -27,8 +26,8 @@ const DashboardGrid = (props) => {
           const newBooks = querySnapshot.docs
             .map((doc) => ({...doc.data(), id:doc.id}))
           setBooks(newBooks)
-          console.log("booking list : ")
-          console.log(books, newBooks)
+          /*console.log("booking list : ")
+          console.log(books, newBooks)*/
         })
     }
     // get all the users .collection("users_accnt").orderBy("created_at", "asc")
@@ -38,15 +37,15 @@ const DashboardGrid = (props) => {
           const newUsers = querySnapshot.docs
             .map((doc) => ({...doc.data(), id:doc.id}))
           setUsers(newUsers)
-          console.log("app users : ")
-          console.log(users, newUsers)
+          /*console.log("app users : ")
+          console.log(users, newUsers)*/
         })
     }
     // get all the users .collection("users_accnt").orderBy("current month")
     /**
      *  .where('myDate', isGreaterThanOrEqualTo: new DateTime(date.year, date.month, 1))
         .orderBy('myDate', descending: true)
-     */
+
     const fetchMonthUsers = async () => {
       await getDocs(query(collection(firestore, "users_accnt"), where("created_at", ">=",date)), orderBy("created_at", "asc"))
         .then((querySnapshot) => {
@@ -55,9 +54,9 @@ const DashboardGrid = (props) => {
           setMonthUsers(newUsers)
           /*console.log("date var : " + date)
           console.log("month users : ")
-          console.log(monthUsers, newUsers)*/
+          console.log(monthUsers, newUsers)
         })
-    }
+    } */
     // get all the drivers
     const fetchDrivers = async () => {
       await getDocs(collection(firestore, "drivers_applications"))
@@ -65,8 +64,8 @@ const DashboardGrid = (props) => {
           const newDrivers = querySnapshot.docs
             .map((doc) => ({...doc.data(), id:doc.id}))
           setDrivers(newDrivers)
-          console.log("app drivers")
-          console.log(drivers, newDrivers)
+          /*console.log("app drivers")
+          console.log(drivers, newDrivers)*/
         })
     }
     GetDashboardData().then((response) => {
@@ -80,7 +79,7 @@ const DashboardGrid = (props) => {
     fetchBooks();
     fetchDrivers();
     fetchUsers();
-    fetchMonthUsers();
+    //fetchMonthUsers();
   }, []);
 
   return (

@@ -58,9 +58,11 @@ const UsersRegistrationActivityWidget = (props) => {
     },
   ]);
   const d = props.users
+  console.log(d[0].created_at)
   let curr_date = new Date()
-  curr_date = curr_date.getMonth() + "/" + curr_date.getDate() + "/" + curr_date.getFullYear()
+  curr_date = curr_date.getDate() + "/" + (curr_date.getMonth() + 1) + "/" + curr_date.getFullYear()
   console.log("current date : " + curr_date)
+  curr_date >= d[0].created_at ? console.log("good") : console.log("bad")
   //d[0].created_at = new Date(d[0].created_at.seconds * 1000 + d[0].created_at.nanoseconds / 1000000).toLocaleString()
   //console.log(d[0].created_at)
 
