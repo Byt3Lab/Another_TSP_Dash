@@ -37,8 +37,8 @@ const DashboardGrid = (props) => {
           const newUsers = querySnapshot.docs
             .map((doc) => ({...doc.data(), id:doc.id}))
           setUsers(newUsers)
-          /*console.log("app users : ")
-          console.log(users, newUsers)*/
+          console.log("app users : ")
+          console.log(users, newUsers)
         })
     }
     // get all the users .collection("users_accnt").orderBy("current month")

@@ -5,8 +5,8 @@ import { useState } from "react";
 
 const UsersRegistrationActivityWidget = (props) => {
 
-  const totalNewUsers = props.users.length;
   const theme = useTheme();
+  var totalNewUsers = 0;
   const [data, setDatas] = useState([
     {
       name: "Jan",
@@ -28,43 +28,28 @@ const UsersRegistrationActivityWidget = (props) => {
       name: "May",
       amount: 0,
     },
-    {
-      name: "Jun",
-      amount: 0,
-    },
-    {
-      name: "July",
-      amount: 0,
-    },
-    {
-      name: "Aug",
-      amount: 0,
-    },
-    {
-      name: "Sep",
-      amount: 0,
-    },
-    {
-      name: "Oct",
-      amount: 0,
-    },
-    {
-      name: "Nov",
-      amount: 0,
-    },
-    {
-      name: "Dec",
-      amount: 0,
-    },
   ]);
   const d = props.users
-  console.log(d[0].created_at)
   let curr_date = new Date()
-  curr_date = curr_date.getDate() + "/" + (curr_date.getMonth() + 1) + "/" + curr_date.getFullYear()
-  console.log("current date : " + curr_date)
-  curr_date >= d[0].created_at ? console.log("good") : console.log("bad")
-  //d[0].created_at = new Date(d[0].created_at.seconds * 1000 + d[0].created_at.nanoseconds / 1000000).toLocaleString()
-  //console.log(d[0].created_at)
+  // loop for converting dates :
+  d.forEach((e) => {
+    // parse all dates :
+    e.created_at = new Date(e.created_at).toString()//
+    //e.created_at = new Date(e.created_at);
+    //e.created_at = new Date(e.created_at.seconds * 1000 + e.created_at.nanoseconds / 1000000)
+    //total current month users :
+    /*if(e.created_at.getMonth() === (curr_date.getMonth() +1) && e.created_at.getDate() <= curr_date.getDate()) {
+      //console.log(e.created_at);
+    }*/
+  });
+  console.log("datas:");
+  //d[0].created_at = new Date(d[0].created_at);
+  console.log(d)/*[0]).created_at.getDate());*/
+  //console.log("data month :");
+  //console.log(d[0]);//.created_at);
+  //curr_date = curr_date.getDate() + "/" + (curr_date.getMonth() + 1) + "/" + curr_date.getFullYear()
+  //console.log("current date : " + curr_date)
+  //console.log("total Month Users : " + totalNewUsers)
 
   return (
     <Card>
@@ -91,7 +76,8 @@ const UsersRegistrationActivityWidget = (props) => {
             <AreaChart
               width={500}
               height={400}
-              data={data}
+              data={data.slice(0,4)}
+              //data={props.users}
               margin={{
                 top: 0,
                 right: 0,
