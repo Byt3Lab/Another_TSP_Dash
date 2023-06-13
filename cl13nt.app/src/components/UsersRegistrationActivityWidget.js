@@ -29,22 +29,31 @@ const UsersRegistrationActivityWidget = (props) => {
       amount: 0,
     },
   ]);
-  const d = props.users
+  let d = props.users
   let curr_date = new Date()
   // loop for converting dates :
-  /*d.forEach((e) => {
+  d.forEach((e) => {
     // parse all dates :
-    e.created_at = new Date(e.created_at).toString()//
+    //e.created_at = new Date(e.created_at).toString()//
     //e.created_at = new Date(e.created_at);
-    //e.created_at = new Date(e.created_at.seconds * 1000 + e.created_at.nanoseconds / 1000000)
+    e.created_at = new Date(e.created_at.seconds * 1000 + e.created_at.nanoseconds / 1000000)
     //total current month users :
     /*if(e.created_at.getMonth() === (curr_date.getMonth() +1) && e.created_at.getDate() <= curr_date.getDate()) {
       //console.log(e.created_at);
+    }*/
+  });
+  for (let k in d ) {
+    if(d[k].created_at.getMonth() === curr_date.getMonth())
+    {
+      console.log("curr_date.getMonth : " , curr_date.getMonth().toString())
+      console.log("data month : " , d[k].created_at.getMonth())
+      totalNewUsers += 1
     }
-  });*/
-  console.log("datas:");
+    //console.log(k + ": " + d[k].created_at.getMonth());
+  }
+  console.log("total new users : ",totalNewUsers)
   //d[0].created_at = new Date(d[0].created_at);
-  console.log(d)/*[0]).created_at.getDate());*/
+  /*console.log(d)[0]).created_at.getDate());*/
   //console.log("data month :");
   //console.log(d[0]);//.created_at);
   //curr_date = curr_date.getDate() + "/" + (curr_date.getMonth() + 1) + "/" + curr_date.getFullYear()
