@@ -32,7 +32,7 @@ const UsersRegistrationActivityWidget = (props) => {
   const d = props.users
   let curr_date = new Date()
   // loop for converting dates :
-  d.forEach((e) => {
+  /*d.forEach((e) => {
     // parse all dates :
     e.created_at = new Date(e.created_at).toString()//
     //e.created_at = new Date(e.created_at);
@@ -40,8 +40,8 @@ const UsersRegistrationActivityWidget = (props) => {
     //total current month users :
     /*if(e.created_at.getMonth() === (curr_date.getMonth() +1) && e.created_at.getDate() <= curr_date.getDate()) {
       //console.log(e.created_at);
-    }*/
-  });
+    }
+  });*/
   console.log("datas:");
   //d[0].created_at = new Date(d[0].created_at);
   console.log(d)/*[0]).created_at.getDate());*/
