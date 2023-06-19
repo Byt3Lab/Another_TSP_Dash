@@ -53,8 +53,13 @@ const NewlyJoinedUsersWidgets = (props) => {
       date: "08/03/2023",
       image: "",
     },
-  ];*/
-
+  ];
+  convert the date
+  {meeting.created_at = new Date(meeting.created_at.seconds * 1000 + meeting.created_at.nanoseconds / 1000000).toLocaleString()}
+  */
+  let d = props.users
+  console.log("newly joined users : " )
+  console.log(d)
   return (
     <React.Fragment>
       <Typography component="h2" marginBottom={3} variant="h4">
@@ -73,7 +78,7 @@ const NewlyJoinedUsersWidgets = (props) => {
                 {meeting.name}
               </Typography>
               <Typography variant="body2" color="textSecondary" component="div">
-                {meeting.created_at = new Date(meeting.created_at.seconds * 1000 + meeting.created_at.nanoseconds / 1000000).toLocaleString()}
+                {meeting.created_at.toLocaleString()}
               </Typography>
             </Box>
           </CardContent>

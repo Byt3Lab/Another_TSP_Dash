@@ -37,6 +37,9 @@ const DashboardGrid = (props) => {
           const newUsers = querySnapshot.docs
             .map((doc) => ({...doc.data(), id:doc.id}))
           setUsers(newUsers)
+          /*newUsers.forEach((e) => {
+            e.created_at = new Date(e.created_at.seconds * 1000 + e.created_at.nanoseconds / 1000000)
+          });*/
           console.log("app users : ")
           console.log(users, newUsers)
         })
