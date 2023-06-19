@@ -16,8 +16,6 @@ const UsersRegistrationActivityWidget = (props) => {
   for (let k in d ) {
     if(d[k].created_at.getMonth() === curr_date.getMonth())
     {
-      console.log("curr_date.getMonth : " , curr_date.getMonth().toString())
-      console.log("data month : " , d[k].created_at.getMonth())
       totalNewUsers += 1
     }
   }
@@ -57,6 +55,30 @@ const UsersRegistrationActivityWidget = (props) => {
       name: "Jun",
       amount: specificMonthUsers(5),
     },
+    {
+      name: "Jul",
+      amount: specificMonthUsers(6),
+    },
+    {
+      name: "Aug",
+      amount: specificMonthUsers(7),
+    },
+    {
+      name: "Sep",
+      amount: specificMonthUsers(8),
+    },
+    {
+      name: "Oct",
+      amount: specificMonthUsers(9),
+    },
+    {
+      name: "Nov",
+      amount: specificMonthUsers(10),
+    },
+    {
+      name: "Dec",
+      amount: specificMonthUsers(11),
+    },
   ];
 
   return (
@@ -84,7 +106,7 @@ const UsersRegistrationActivityWidget = (props) => {
             <AreaChart
               width={500}
               height={400}
-              data={data.slice(1,(curr_date.getMonth()+1))}
+              data={data.slice((curr_date.getMonth()-4)+1,curr_date.getMonth()+1)}
               margin={{
                 top: 0,
                 right: 0,

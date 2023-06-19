@@ -57,9 +57,6 @@ const NewlyJoinedUsersWidgets = (props) => {
   convert the date
   {meeting.created_at = new Date(meeting.created_at.seconds * 1000 + meeting.created_at.nanoseconds / 1000000).toLocaleString()}
   */
-  let d = props.users
-  console.log("newly joined users : " )
-  console.log(d)
   return (
     <React.Fragment>
       <Typography component="h2" marginBottom={3} variant="h4">
