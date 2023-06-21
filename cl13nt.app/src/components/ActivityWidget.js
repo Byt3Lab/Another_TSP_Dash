@@ -7,73 +7,73 @@ const CommandsActivityWidget = (props) => {
   let b = props.books;
   let curr_date = new Date();
   // loop for converting dates :
-  /*b.forEach((e) => {
+  b.forEach((e) => {
     e.created_at = new Date(e.created_at.seconds * 1000 + e.created_at.nanoseconds / 1000000)
-  });*/
+  });
   console.log("books:");
   console.log(b);
   // function to get number of users for a specific month
-  /*function specificMonthBooks(month) {
+  function specificMonthBooks(month) {
     let amount = 0;
-    for (let k in d ) {
-      if(d[k].created_at.getMonth() === month)
+    for (let k in b ) {
+      if(b[k].created_at.getMonth() === month)
       {
         console.log("curr_date.getMonth : " , curr_date.getMonth().toString());
-        console.log("data month : " , d[k].created_at.getMonth());
+        console.log("data month : " , b[k].created_at.getMonth());
         console.log("month "+month+" : "+amount+"books");
         amount += 1;
       }
     }
     return amount;
-  }*/
+  }
   const data = [
     {
       name: "Jan",
-      pv: 10,//specificMonthBooks(0),
+      pv: specificMonthBooks(0),
     },
     {
       name: "Feb",
-      pv: 10,
+      pv: specificMonthBooks(1),
     },
     {
       name: "Mar",
-      pv: 30,
+      pv: specificMonthBooks(2),
     },
     {
       name: "Apr",
-      pv: 0,
+      pv: specificMonthBooks(3),
     },
     {
       name: "May",
-      pv: 0,
+      pv: specificMonthBooks(4),
     },
     {
       name: "Jun",
-      pv: 0,
+      pv: specificMonthBooks(5),
     },
     {
       name: "Jul",
-      pv: 0,
+      pv: specificMonthBooks(6),
     },
     {
       name: "Aug",
-      pv: 0,
+      pv: specificMonthBooks(7),
     },
     {
       name: "Sep",
-      pv: 0,
+      pv: specificMonthBooks(8),
     },
     {
       name: "Oct",
-      pv: 0,
+      pv: specificMonthBooks(9),
     },
     {
       name: "Nov",
-      pv: 0,
+      pv: specificMonthBooks(10),
     },
     {
       name: "Dec",
-      pv: 0,
+      pv: specificMonthBooks(11),
     },
   ];
   const theme = useTheme();
